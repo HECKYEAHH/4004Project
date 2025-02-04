@@ -36,42 +36,57 @@ function handleGoogleLogin(response) {
 }
 
 // Show Two-Factor Authentication (TOTP) Prompt
-function showTwoFactorPrompt() {
-    // Create a new div for the TOTP input form
-    const totpPrompt = document.createElement("div");
-    totpPrompt.innerHTML = `
-        <h2>Two-Factor Authentication</h2>
-        <p>Please enter the 6-digit code from your authenticator app:</p>
-        <input type="text" id="totpCode" maxlength="6" placeholder="Enter code" required />
-        <button id="verifyTOTP">Verify</button>
-    `;
-    document.body.appendChild(totpPrompt); // Append the prompt to the page
-
-    // Add event listener to the verification button
-    document.getElementById("verifyTOTP").addEventListener("click", verifyTOTP);
-}
-
-// Verify the TOTP Code (Server-Side Validation)
-function verifyTOTP() {
-    const totpCode = document.getElementById("totpCode").value; // Get user input
-
-    // Send the entered TOTP code to the backend for verification
-    fetch("/verify-totp", {
+function showTwoFactorPrompt(username) {
+    fetch("http://localhost:3000/generate-totp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: totpCode }), // Send TOTP code in JSON format
+        body: JSON.stringify({ username }),
     })
-        .then((res) => res.json()) // Convert response to JSON
-        .then((data) => {
-            if (data.success) {
-                alert("TOTP Verified! Login Successful.");
-                // Redirect the user to the game page upon successful authentication
-                window.location.href = "/game";
-            } else {
-                alert("Invalid TOTP Code. Try again.");
-            }
-        })
-        .catch((err) => console.error("Error verifying TOTP:", err));
+    .then(res => res.json())
+    .then(data => {
+        if (data.qrCode) {
+            const totpPrompt = document.createElement("div");
+            totpPrompt.innerHTML = `
+                <h2>Two-Factor Authentication</h2>
+                <p>Scan this QR code with Google Authenticator:</p>
+                <img src="${data.qrCode}" alt="QR Code">
+                <p>Then enter the 6-digit code below:</p>
+                <input type="text" id="totpCode" maxlength="6" placeholder="Enter code" required />
+                <button id="verifyTOTP">Verify</button>
+            `;
+            document.body.appendChild(totpPrompt);
+
+            // Add event listener for verification
+            document.getElementById("verifyTOTP").addEventListener("click", function () {
+                verifyTOTP(username);
+            });
+        } else {
+            alert("Failed to generate TOTP QR code.");
+        }
+    })
+    .catch(err => console.error("Error setting up TOTP:", err));
+}
+
+
+// Verify the TOTP Code (Server-Side Validation)
+function verifyTOTP(username) {
+    const totpCode = document.getElementById("totpCode").value;
+
+    fetch("http://localhost:3000/verify-totp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, code: totpCode }),
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("✅ TOTP Verified! Login Successful.");
+            window.location.href = "/game"; // Redirect to game
+        } else {
+            alert("❌ Invalid TOTP Code. Try again.");
+        }
+    })
+    .catch(err => console.error("Error verifying TOTP:", err));
 }
 
 // Event Listener for Manual Login Form Submission

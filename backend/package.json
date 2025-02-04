@@ -1,0 +1,30 @@
+{
+  "name": "4004project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "login.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HECKYEAHH/4004Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HECKYEAHH/4004Project/issues"
+  },
+  "homepage": "https://github.com/HECKYEAHH/4004Project#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.7",
+    "qrcode": "^1.5.4",
+    "speakeasy": "^2.0.0"
+  }
+}
