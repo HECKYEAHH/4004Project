@@ -1,4 +1,7 @@
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
+
 const express = require("express");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
@@ -14,15 +17,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // ✅ Connect to MongoDB Atlas
 mongoose.connect(process.env.MONGO_URI)
-
-.then(() => console.log("✅ Connected to MongoDB Atlas"))
-.catch(err => console.error("❌ MongoDB Connection Error:", err));
+    .then(() => console.log("✅ Connected to MongoDB Atlas"))
+    .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
 // ✅ Define User Schema
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    totpSecret: { type: String, default: "" }, // Stores TOTP secret for 2FA
+    totpSecret: { type: String, default: "" },
 });
 
 const User = mongoose.model("User", userSchema);
@@ -30,21 +32,16 @@ const User = mongoose.model("User", userSchema);
 // ✅ Create New Account (Signup)
 app.post("/create-account", async (req, res) => {
     const { username, password } = req.body;
-
     if (!username || !password) {
         return res.status(400).json({ success: false, message: "Username and password required" });
     }
 
-    // Check if the user already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
         return res.status(400).json({ success: false, message: "Username already taken" });
     }
 
-    // Hash password before storing
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Save the user in the database
     const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
 
@@ -54,13 +51,11 @@ app.post("/create-account", async (req, res) => {
 // ✅ User Login Endpoint
 app.post("/login", async (req, res) => {
     const { username, password } = req.body;
-
     const user = await User.findOne({ username });
     if (!user) {
         return res.status(401).json({ success: false, message: "User not found" });
     }
 
-    // Compare hashed password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         return res.status(401).json({ success: false, message: "Invalid credentials" });
@@ -77,14 +72,10 @@ app.post("/generate-totp", async (req, res) => {
     const user = await User.findOne({ username });
     if (!user) return res.status(400).json({ error: "User not found" });
 
-    // Generate TOTP Secret
     const secret = speakeasy.generateSecret({ length: 20 });
-
-    // Store TOTP secret in MongoDB
     user.totpSecret = secret.base32;
     await user.save();
 
-    // Generate QR Code
     qrcode.toDataURL(secret.otpauth_url, (err, qrCode) => {
         if (err) return res.status(500).json({ error: "QR code generation failed" });
 
@@ -92,7 +83,7 @@ app.post("/generate-totp", async (req, res) => {
     });
 });
 
-// ✅ Verify TOTP Code (Two-Factor Authentication)
+// ✅ Verify TOTP Code
 app.post("/verify-totp", async (req, res) => {
     const { username, code } = req.body;
     if (!username || !code) return res.status(400).json({ error: "Username and code required" });
@@ -102,7 +93,6 @@ app.post("/verify-totp", async (req, res) => {
         return res.status(400).json({ error: "User not found or TOTP not set up" });
     }
 
-    // Verify TOTP
     const isValid = speakeasy.totp.verify({
         secret: user.totpSecret,
         encoding: "base32",
@@ -117,17 +107,15 @@ app.post("/verify-totp", async (req, res) => {
 app.post("/validate-google-token", (req, res) => {
     const { token } = req.body;
     
-    // In production, validate the Google token using Google's API
     if (!token) {
         return res.status(400).json({ success: false, message: "Invalid token" });
     }
 
     console.log("Google Token Received:", token);
     
-    // Simulate successful Google login
     res.json({ success: true });
 });
 
 // ✅ Start the server
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));

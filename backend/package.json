@@ -2,8 +2,9 @@
   "name": "4004project",
   "version": "1.0.0",
   "description": "",
-  "main": "login.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -26,5 +27,8 @@
     "mongoose": "^8.9.7",
     "qrcode": "^1.5.4",
     "speakeasy": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
