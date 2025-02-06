@@ -115,9 +115,15 @@ app.post("/validate-google-token", (req, res) => {
     
     res.json({ success: true });
 });
+const path = require("path");
+
+// Serve static files from the root directory
+app.use(express.static(__dirname));
+
 app.get("/", (req, res) => {
-    res.send("Hello, your app is running! 🎉");
-  });
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+
   
 // ✅ Start the server
 const PORT = process.env.PORT || 3000;
