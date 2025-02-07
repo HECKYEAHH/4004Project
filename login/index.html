@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idle Clicker Game - Login</title>
+    <link rel="stylesheet" href="style_login.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Idle Clicker Game</h1>
+        <form id="loginForm">
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+        </form>
+        <div id="googleSignIn" class="google-btn"></div>
+        
+        <button id="createAccountButton">Create New Account</button>
+        <p>
+            <a href="#" class="link">Forgot your password?</a>
+        </p>
+        
+    </div>
+    <script src="login.js"></script>
+</body>
+</html>
