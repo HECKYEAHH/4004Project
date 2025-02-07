@@ -117,11 +117,12 @@ app.post("/validate-google-token", (req, res) => {
 });
 const path = require("path");
 
-// Serve static files from the root directory
-app.use(express.static(__dirname + "login"));
+//  Serve static files from "public" (CSS, JS, images)
+app.use(express.static(path.join(__dirname, "public")));
 
+//  Serve HTML pages dynamically from "views"
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname + "/login/index.html"));
+    res.sendFile(path.join(__dirname, "views", "index.html"));
 });
 
   //TEST
