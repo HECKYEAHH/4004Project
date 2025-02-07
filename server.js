@@ -118,10 +118,10 @@ app.post("/validate-google-token", (req, res) => {
 const path = require("path");
 
 // Serve static files from the root directory
-app.use(express.static(__dirname));
+app.use(express.static(__dirname + "login"));
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname,"Login", "index.html"));
+    res.sendFile(path.join(__dirname + "/login/index.html"));
 });
 
   //TEST
