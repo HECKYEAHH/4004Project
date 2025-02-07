@@ -122,7 +122,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //  Serve HTML pages dynamically from "views"
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "views", "index.html"));
+    res.sendFile(path.join(__dirname,"public", "views", "index.html"));
 });
 
   //TEST
