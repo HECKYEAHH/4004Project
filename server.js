@@ -127,9 +127,8 @@ app.get('/', (req, res) => {
 
 // Serve create-account page
 app.get('/create-account', (req, res) => {
-    res.sendFile(__dirname + '/public/views/create-account.html');
+    res.sendFile(path.join(__dirname, 'public', 'views', 'create-account.html'));
 });
-
 
   //TEST
 // ✅ Start the server
