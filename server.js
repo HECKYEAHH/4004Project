@@ -118,6 +118,7 @@ app.post("/validate-google-token", (req, res) => {
 const path = require("path");
 
 //  Serve static files from "public" (CSS, JS, images)
+app.use(express.static('public'));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Serve login page
@@ -127,8 +128,9 @@ app.get('/', (req, res) => {
 
 // Serve create-account page
 app.get('/create-account', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'views', 'create-account.html'));
+    res.sendFile(__dirname + '/public/views/create-account.html');
 });
+
 
   //TEST
 // ✅ Start the server
