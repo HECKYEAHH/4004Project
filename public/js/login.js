@@ -117,5 +117,5 @@ document.getElementById("loginForm").addEventListener("submit", function (event)
 
 // Event Listener for Account Creation Button Click
 document.getElementById("createAccountButton").addEventListener("click", function () {
-    window.location.href = "/create-account.html"; // Redirect the user to the account creation page
+    window.location.href = "/create-account"; // Redirect the user to the account creation page
 });
