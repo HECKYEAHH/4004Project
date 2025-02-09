@@ -119,7 +119,6 @@ const path = require("path");
 
 //  Serve static files from "public" (CSS, JS, images)
 app.use(express.static('public'));
-app.use(express.static(path.join(__dirname, "public")));
 
 // Serve login page
 app.get('/', (req, res) => {
