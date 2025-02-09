@@ -120,9 +120,14 @@ const path = require("path");
 //  Serve static files from "public" (CSS, JS, images)
 app.use(express.static(path.join(__dirname, "public")));
 
-//  Serve HTML pages dynamically from "views"
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname,"public", "views", "index.html"));
+// Serve login page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views', 'index.html'));
+});
+
+// Serve create-account page
+app.get('/create-account', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views', 'create-account.html'));
 });
 
   //TEST
