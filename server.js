@@ -23,6 +23,7 @@ mongoose.connect(process.env.MONGO_URI)
 // ✅ Define User Schema
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
+    email: {type: String, required: true, unique: true},
     password: { type: String, required: true },
     totpSecret: { type: String, default: "" },
 });
@@ -30,10 +31,18 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model("User", userSchema);
 
 // ✅ Create New Account (Signup)
+// ✅ Create New Account (Signup)
 app.post("/create-account", async (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
-        return res.status(400).json({ success: false, message: "Username and password required" });
+    const { username, email, password } = req.body;
+    
+    if (!username || !email || !password) {
+        return res.status(400).json({ success: false, message: "Username, email, and password are required" });
+    }
+
+    // Check if the email format is valid
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ success: false, message: "Invalid email format" });
     }
 
     const existingUser = await User.findOne({ username });
@@ -41,12 +50,18 @@ app.post("/create-account", async (req, res) => {
         return res.status(400).json({ success: false, message: "Username already taken" });
     }
 
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+        return res.status(400).json({ success: false, message: "Email already in use" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, password: hashedPassword });
+    const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
 
     res.json({ success: true, message: "Account created successfully!" });
 });
+
 
 // ✅ User Login Endpoint
 app.post("/login", async (req, res) => {
