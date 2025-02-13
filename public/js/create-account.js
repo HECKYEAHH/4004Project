@@ -21,7 +21,8 @@ document.getElementById('createAccountForm').addEventListener('submit', function
     .then(data => {
         if (data.success) {
             alert('Account created successfully! Please log in.');
-            window.location.href = '/public/views/index.html';
+            window.location.href = '/';
+;
         } else {
             alert('Account creation failed: ' + data.message);
         }

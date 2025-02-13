@@ -22,10 +22,10 @@ mongoose.connect(process.env.MONGO_URI)
 
 // ✅ Define User Schema
 const userSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    email: {type: String, required: true, unique: true},
-    password: { type: String, required: true },
-    totpSecret: { type: String, default: "" },
+    username: { type: String, required: true, unique: true }, //Ensures unique usernames
+    email: {type: String, required: true, unique: true}, //Ensures unique emails
+    password: { type: String, required: true },         //Stores a hashed password
+    totpSecret: { type: String, default: "" },          //Used for 2FA, not implemented
 });
 
 const User = mongoose.model("User", userSchema);
