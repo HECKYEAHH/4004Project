@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("✅ Connected to MongoDB Atlas"))
     .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
-// ✅ Define User Schema
+// This is the User scheme, more will be added like the data for the clicker game
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true }, //Ensures unique usernames
     email: {type: String, required: true, unique: true}, //Ensures unique emails
