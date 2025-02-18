@@ -191,7 +191,7 @@ app.post("/api/forgot-password", async (req, res) => {
     });
     
     await transporter.sendMail({
-        from: '"MineClicker Support" <MineClicker@gmail.com>', // Your verified email
+        from: '"MineClicker Support" <MineClickerReset@gmail.com>', // Your verified email
         to: email,
         subject: "Password Reset Request",
         text: `Click the following link to reset your password: ${resetLink}`,
