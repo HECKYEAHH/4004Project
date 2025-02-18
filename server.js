@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("✅ Connected to MongoDB Atlas"))
     .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
-// This is the User scheme, more will be added like the data for the clicker game
+// This is the User scheme, more will be added like the data for the clicker
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true }, //Ensures unique usernames
     email: {type: String, required: true, unique: true}, //Ensures unique emails
@@ -182,18 +182,22 @@ app.post("/api/forgot-password", async (req, res) => {
 
     // ✅ Send email
     const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+        host: "smtp.sendgrid.net",
+        port: 587,
+        auth: {
+            user: "apikey",  // This is required for SendGrid
+            pass: process.env.SENDGRID_API_KEY,  // Your API Key stored in Heroku
+        },
     });
-
+    
     await transporter.sendMail({
-        from: process.env.EMAIL_USER,
+        from: '"MineClicker Support" <MineClicker@gmail.com>', // Your verified email
         to: email,
         subject: "Password Reset Request",
-        html: `<p>Click <a href="${resetLink}">here</a> to reset your password. The link expires in 1 hour.</p>`,
+        text: `Click the following link to reset your password: ${resetLink}`,
+        html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
     });
-
-    res.json({ success: true, message: "Reset link sent to email!" });
+    
 });
 
 //Actual password reset functionality
