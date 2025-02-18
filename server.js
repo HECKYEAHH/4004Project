@@ -149,7 +149,7 @@ app.get('/create-account', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views', 'create-account.html'));
 });
 //Server forget-password page
-app.get('/forgot-password', (req, res) => {
+app.get('/forgot-password.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views', 'forgot-password.html'));
 });
 
