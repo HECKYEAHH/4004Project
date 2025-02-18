@@ -9,7 +9,8 @@ const speakeasy = require("speakeasy");
 const qrcode = require("qrcode");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -25,6 +26,8 @@ const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true }, //Ensures unique usernames
     email: {type: String, required: true, unique: true}, //Ensures unique emails
     password: { type: String, required: true },         //Stores a hashed password
+    resetTokens: {type: String, default: ""},           //Password reset token
+    resetTokenExpiration:{type: Date, default: null},    // Expiration of password reset token
     totpSecret: { type: String, default: "" },          //Used for 2FA, not implemented
 });
 
@@ -145,6 +148,61 @@ app.get('/', (req, res) => {
 app.get('/create-account', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views', 'create-account.html'));
 });
+
+//Password reset
+const resetTokens = new Map(); // Temporary storage (use DB in production)
+
+// Forgot Password API Endpoint
+app.post("/api/forgot-password", async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        return res.status(400).json({ success: false, message: "No account found with this email." });
+    }
+
+    // ✅ Generate secure token
+    const token = crypto.randomBytes(32).toString("hex");
+    user.resetToken = token;
+    user.resetTokenExpiration = Date.now() + 3600000; // 1-hour expiration
+    await user.save();
+
+    const resetLink = `https://cis4004app-6e9d945f299e.herokuapp.com/reset-password.html?token=${token}`;
+
+    // ✅ Send email
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+    });
+
+    await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: "Password Reset Request",
+        html: `<p>Click <a href="${resetLink}">here</a> to reset your password. The link expires in 1 hour.</p>`,
+    });
+
+    res.json({ success: true, message: "Reset link sent to email!" });
+});
+
+//Actual password reset functionality
+app.post("/reset-password", async (req, res) => {
+    const { token, newPassword } = req.body;
+    const user = await User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } });
+
+    if (!user) {
+        return res.status(400).json({ success: false, message: "Invalid or expired token." });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetToken = ""; // ✅ Remove token after use
+    user.resetTokenExpiration = null;
+    await user.save();
+
+    res.json({ success: true, message: "Password reset successful! You can now log in." });
+});
+
+
   //TEST
 // ✅ Start the server
 const PORT = process.env.PORT || 3000;
