@@ -9,7 +9,8 @@ const speakeasy = require("speakeasy");
 const qrcode = require("qrcode");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,20 +21,31 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("✅ Connected to MongoDB Atlas"))
     .catch(err => console.error("❌ MongoDB Connection Error:", err));
 
-// ✅ Define User Schema
+// This is the User scheme, more will be added like the data for the clicker
 const userSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    totpSecret: { type: String, default: "" },
+    username: { type: String, required: true, unique: true }, //Ensures unique usernames
+    email: {type: String, required: true, unique: true}, //Ensures unique emails
+    password: { type: String, required: true },         //Stores a hashed password
+    resetTokens: {type: String, default: ""},           //Password reset token
+    resetTokenExpiration:{type: Date, default: null},    // Expiration of password reset token
+    totpSecret: { type: String, default: "" },          //Used for 2FA, not implemented
 });
 
 const User = mongoose.model("User", userSchema);
 
 // ✅ Create New Account (Signup)
+// ✅ Create New Account (Signup)
 app.post("/create-account", async (req, res) => {
-    const { username, password } = req.body;
-    if (!username || !password) {
-        return res.status(400).json({ success: false, message: "Username and password required" });
+    const { username, email, password } = req.body;
+    
+    if (!username || !email || !password) {
+        return res.status(400).json({ success: false, message: "Username, email, and password are required" });
+    }
+
+    // Check if the email format is valid
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ success: false, message: "Invalid email format" });
     }
 
     const existingUser = await User.findOne({ username });
@@ -41,12 +53,18 @@ app.post("/create-account", async (req, res) => {
         return res.status(400).json({ success: false, message: "Username already taken" });
     }
 
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+        return res.status(400).json({ success: false, message: "Email already in use" });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, password: hashedPassword });
+    const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
 
     res.json({ success: true, message: "Account created successfully!" });
 });
+
 
 // ✅ User Login Endpoint
 app.post("/login", async (req, res) => {
@@ -130,6 +148,76 @@ app.get('/', (req, res) => {
 app.get('/create-account', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views', 'create-account.html'));
 });
+//Server forget-password page
+app.get('/forgot-password.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views', 'forgot-password.html'));
+});
+
+//serve actual reset password
+app.get('/reset-password', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views', 'reset-password.html'));
+});
+
+
+
+//Password reset
+const resetTokens = new Map(); // Temporary storage (use DB in production)
+
+// Forgot Password API Endpoint
+app.post("/api/forgot-password", async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        return res.status(400).json({ success: false, message: "No account found with this email." });
+    }
+
+    // ✅ Generate secure token
+    const token = crypto.randomBytes(32).toString("hex");
+    user.resetToken = token;
+    user.resetTokenExpiration = Date.now() + 3600000; // 1-hour expiration
+    await user.save();
+
+    const resetLink = `https://cis4004app-6e9d945f299e.herokuapp.com/reset-password.html?token=${token}`;
+
+    // ✅ Send email
+    const transporter = nodemailer.createTransport({
+        host: "smtp.sendgrid.net",
+        port: 587,
+        auth: {
+            user: "apikey",  // This is required for SendGrid
+            pass: process.env.SENDGRID_API_KEY,  // Your API Key stored in Heroku
+        },
+    });
+    
+    await transporter.sendMail({
+        from: '"MineClicker Support" <MineClickerReset@gmail.com>', // Your verified email
+        to: email,
+        subject: "Password Reset Request",
+        text: `Click the following link to reset your password: ${resetLink}`,
+        html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
+    });
+    
+});
+
+//Actual password reset functionality
+app.post("/reset-password", async (req, res) => {
+    const { token, newPassword } = req.body;
+    const user = await User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } });
+
+    if (!user) {
+        return res.status(400).json({ success: false, message: "Invalid or expired token." });
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetToken = ""; // ✅ Remove token after use
+    user.resetTokenExpiration = null;
+    await user.save();
+
+    res.json({ success: true, message: "Password reset successful! You can now log in." });
+});
+
+
   //TEST
 // ✅ Start the server
 const PORT = process.env.PORT || 3000;
