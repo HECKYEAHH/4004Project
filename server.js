@@ -138,6 +138,8 @@ const path = require("path");
 
 // Serve static files from "public"
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/views', express.static(path.join(__dirname, 'public', 'views')));
+
 
 // Serve the login page
 app.get('/', (req, res) => {
