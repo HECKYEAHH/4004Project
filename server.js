@@ -154,7 +154,7 @@ app.get('/forgot-password.html', (req, res) => {
 });
 
 //serve actual reset password
-app.get('/reset-password', (req, res) => {
+app.get('/reset-password.htyml', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views', 'reset-password.html'));
 });
 
