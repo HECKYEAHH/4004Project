@@ -176,11 +176,12 @@ app.post("/api/forgot-password", async (req, res) => {
 
     // ✅ Generate secure token
     const token = crypto.randomBytes(32).toString("hex");
-    user.resetToken = token;
+    user.resetTokens = token; // <-- Updated to use "resetTokens"
     user.resetTokenExpiration = Date.now() + 3600000; // 1-hour expiration
     await user.save();
 
     const resetLink = `https://cis4004app-6e9d945f299e.herokuapp.com/reset-password.html?token=${token}`;
+    console.log("Reset link generated:", resetLink); // Debug log to verify
 
     // ✅ Send email
     const transporter = nodemailer.createTransport({
@@ -199,25 +200,28 @@ app.post("/api/forgot-password", async (req, res) => {
         text: `Click the following link to reset your password: ${resetLink}`,
         html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
     });
-    
+
+    res.json({ success: true, message: "Password reset email sent successfully!" }); // ✅ Added success response
 });
+
 
 //Actual password reset functionality
 app.post("/reset-password", async (req, res) => {
     const { token, newPassword } = req.body;
-    const user = await User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } });
+    const user = await User.findOne({ resetTokens: token, resetTokenExpiration: { $gt: Date.now() } });
 
     if (!user) {
         return res.status(400).json({ success: false, message: "Invalid or expired token." });
     }
 
     user.password = await bcrypt.hash(newPassword, 10);
-    user.resetToken = ""; // ✅ Remove token after use
+    user.resetTokens = ""; // ✅ Clear after reset
     user.resetTokenExpiration = null;
     await user.save();
 
     res.json({ success: true, message: "Password reset successful! You can now log in." });
 });
+
 
 
   //TEST
