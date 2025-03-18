@@ -168,7 +168,7 @@ app.get('/forgot-password.html', (req, res) => {
 app.get('/reset-password.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views', 'reset-password.html'));
 });
-app.get('/idle_game', (req, res) => {
+app.get('/idle_game.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views', 'idle_game.html'));
 });
 
