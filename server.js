@@ -11,6 +11,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
+const session = require("express-session");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
@@ -70,6 +72,7 @@ app.post("/create-account", async (req, res) => {
 app.post("/login", async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
+
     if (!user) {
         return res.status(401).json({ success: false, message: "User not found" });
     }
@@ -79,7 +82,13 @@ app.post("/login", async (req, res) => {
         return res.status(401).json({ success: false, message: "Invalid credentials" });
     }
 
-    res.json({ success: true, username });
+    // ✅ Generate JWT Token for authentication
+    const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET || "jwtsecret", { expiresIn: "1h" });
+
+    // ✅ Save session info
+    req.session.user = { username: user.username };
+
+    res.json({ success: true, token, username: user.username });
 });
 
 // ✅ Generate TOTP QR Code for Google Authenticator
@@ -159,6 +168,9 @@ app.get('/forgot-password.html', (req, res) => {
 app.get('/reset-password.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'views', 'reset-password.html'));
 });
+app.get('/idle_game', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'views', 'idle_game.html'));
+});
 
 
 
@@ -222,7 +234,12 @@ app.post("/reset-password", async (req, res) => {
     res.json({ success: true, message: "Password reset successful! You can now log in." });
 });
 
-
+app.use(session({
+    secret: process.env.SESSION_SECRET || "yoursecretkey", // Use an environment variable for security
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
 
   //TEST
 // ✅ Start the server

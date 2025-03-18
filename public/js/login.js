@@ -91,29 +91,30 @@ function verifyTOTP(username) {
 
 // Event Listener for Manual Login Form Submission
 document.getElementById("loginForm").addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault();
 
-    const username = document.getElementById("username").value; // Get username input
-    const password = document.getElementById("password").value; // Get password input
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-    // Send username and password to the backend for validation
     fetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }), // Send login credentials in JSON format
+        body: JSON.stringify({ username, password }),
     })
-        .then((res) => res.json()) // Convert response to JSON
-        .then((data) => {
-            if (data.success) {
-                alert("Login Successful!");
-                // If login is successful, proceed to TOTP authentication
-                showTwoFactorPrompt();
-            } else {
-                alert("Login Failed. Check your username and password.");
-            }
-        })
-        .catch((err) => console.error("Error during login:", err));
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("Login Successful!");
+            localStorage.setItem("username", username); // ✅ Store username
+            localStorage.setItem("authToken", data.token); // ✅ Store JWT token
+            window.location.href = "/idle_game"; // ✅ Redirect to idle game
+        } else {
+            alert("Login Failed: " + data.message);
+        }
+    })
+    .catch(err => console.error("Error during login:", err));
 });
+
 
 // Event Listener for Account Creation Button Click
 document.getElementById("createAccountButton").addEventListener("click", function () {
