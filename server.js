@@ -14,9 +14,21 @@ const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const app = express();
+
+//load environment variables
+dotenv.config();
+
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: process.env.SESSION_SECRET || "yoursecretkey", // Use an environment variable for security
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
 
 // ✅ Connect to MongoDB Atlas
 mongoose.connect(process.env.MONGO_URI)
@@ -145,6 +157,7 @@ app.post("/validate-google-token", (req, res) => {
 const path = require("path");
 
 
+
 // Serve static files from "public"
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/views', express.static(path.join(__dirname, 'public', 'views')));
@@ -234,12 +247,7 @@ app.post("/reset-password", async (req, res) => {
     res.json({ success: true, message: "Password reset successful! You can now log in." });
 });
 
-app.use(session({
-    secret: process.env.SESSION_SECRET || "yoursecretkey", // Use an environment variable for security
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false } // Set to true if using HTTPS
-}));
+
 
   //TEST
 // ✅ Start the server
