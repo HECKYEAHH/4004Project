@@ -14,8 +14,7 @@ const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const app = express();
 
-//load environment variables
-dotenv.config();
+
 
 
 app.use(cors());
