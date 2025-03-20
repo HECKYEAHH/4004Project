@@ -1,28 +1,23 @@
+<!-- public/views/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Idle Clicker Game - Login</title>
-    <link rel="stylesheet" href="css/style_login.css">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <meta charset="UTF-8" />
+  <title>Idle Clicker - Welcome</title>
+  <link rel="stylesheet" href="/css/style_login.css">
 </head>
 <body>
-    <div class="login-container">
-        <h1>Idle Clicker Game</h1>
-        <form id="loginForm">
-            <input type="text" id="username" name="username" placeholder="Username" required>
-            <input type="password" id="password" name="password" placeholder="Password" required>
-            <button type="submit">Log In</button>
-        </form>
-        <div id="googleSignIn" class="google-btn"></div>
-        
-        <button id="createAccountButton">Create New Account</button>
-        <p>
-            <a href="forgot-password.html" class="link">Forgot your password?</a>
-        </p>
-        
-    </div>
-    <script src="/js/login.js"></script>
+  <h1>Welcome to Idle Clicker</h1>
+
+  <!-- Button that triggers Auth0 login -->
+  <button id="loginButton">Log In with Auth0</button>
+
+  <!-- Links for convenience -->
+  <p>
+    <a href="/public/views/idle_game.html">Go to Idle Game (Protected)</a> | 
+    <a href="/logout">Log Out</a>
+  </p>
+
+  <script src="/js/login.js"></script>
 </body>
 </html>

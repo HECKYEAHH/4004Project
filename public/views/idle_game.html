@@ -1,26 +1,14 @@
+<!-- idle_game.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Idle Game</title>
-    <link rel="stylesheet" href="/css/idlestyle.css"> <!-- Placeholder for styling -->
+  <meta charset="UTF-8">
+  <title>Idle Game</title>
 </head>
 <body>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const token = localStorage.getItem("authToken");
-        
-            if (!token) {
-                alert("You must be logged in to access this page!");
-                window.location.href = "/"; // Redirect to login if no token
-            }
-        });
-        </script>
-        
-    <h1>Idle Game Page</h1>
-    <p>Welcome to your new idle game! Start building from here.</p>
+  <h1>Welcome to Your Idle Game!</h1>
+  <p>If you see this, you’re logged in with Auth0.</p>
 
-    <script src="/js/idlescript.js"></script> <!-- Placeholder for functionality -->
+  <!-- Any additional game logic or scripts go here -->
 </body>
 </html>
