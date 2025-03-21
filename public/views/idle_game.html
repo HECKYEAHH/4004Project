@@ -8,27 +8,26 @@
 <body>
   <h1>Welcome to Your Idle Game!</h1>
   <p>If you see this, you’re logged in with Auth0.</p>
+
+  <!-- 1) A place to display the user's name -->
+  <h2 id="welcomeMessage">Loading your data...</h2>
+
+  <!-- 2) Script to fetch /api/me and show nickname -->
   <script>
-    // Example: load user data
     fetch("/api/me")
       .then(res => res.json())
       .then(data => {
-        console.log("User data:", data);
-        // e.g. show their gold, nickname, etc.
-      });
-  
-    // Example: save new gold value
-    function updateGold(newGold) {
-      fetch("/api/me", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ gold: newGold }),
+        if (data.error) {
+          document.getElementById("welcomeMessage").textContent = "Error: " + data.error;
+        } else {
+          // e.g. "Hello, Bob!"
+          document.getElementById("welcomeMessage").textContent = `Hello, ${data.nickname}!`;
+        }
       })
-      .then(res => res.json())
-      .then(updated => console.log("Updated doc:", updated));
-    }
+      .catch(err => {
+        console.error("Error fetching user data:", err);
+        document.getElementById("welcomeMessage").textContent = "Error loading data";
+      });
   </script>
-  
-  <!-- Any additional game logic or scripts go here -->
 </body>
 </html>
