@@ -8,7 +8,27 @@
 <body>
   <h1>Welcome to Your Idle Game!</h1>
   <p>If you see this, you’re logged in with Auth0.</p>
-
+  <script>
+    // Example: load user data
+    fetch("/api/me")
+      .then(res => res.json())
+      .then(data => {
+        console.log("User data:", data);
+        // e.g. show their gold, nickname, etc.
+      });
+  
+    // Example: save new gold value
+    function updateGold(newGold) {
+      fetch("/api/me", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gold: newGold }),
+      })
+      .then(res => res.json())
+      .then(updated => console.log("Updated doc:", updated));
+    }
+  </script>
+  
   <!-- Any additional game logic or scripts go here -->
 </body>
 </html>

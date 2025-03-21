@@ -12,14 +12,15 @@ mongoose
   .then(() => console.log("✅ Connected to MongoDB Atlas"))
   .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
-/*
-// Example schema if you want to store data per user (using Auth0's "sub" as unique key).
+
+// 1) Add the user schema to store data by sub
 const userSchema = new mongoose.Schema({
-  auth0Sub: { type: String, unique: true },
-  gold: { type: Number, default: 0 },
-});
-const User = mongoose.model("User", userSchema);
-*/
+    auth0Sub: { type: String, unique: true },
+    nickname: { type: String },             // e.g. store their nickname from Auth0
+    gold: { type: Number, default: 0 },     // example game field
+  });
+  const User = mongoose.model("User", userSchema);
+  
 
 const app = express();
 app.use(cors());
@@ -52,14 +53,47 @@ app.get("/", (req, res) => {
 
 // 2) Protected Game Page
 app.get("/idle_game", requiresAuth(), async (req, res) => {
-  // If you want to handle user info in DB:
-  // const sub = req.oidc.user.sub;
-  // let userDoc = await User.findOne({ auth0Sub: sub });
-  // if (!userDoc) { userDoc = new User({ auth0Sub: sub }); await userDoc.save(); }
-
-  // Then serve the game
-  res.sendFile(path.join(__dirname, "public", "views", "idle_game.html"));
-});
+    // 1) Grab sub + nickname from Auth0
+    const { sub, nickname } = req.oidc.user;
+  
+    // 2) Find or create the user doc in Mongo
+    let userDoc = await User.findOne({ auth0Sub: sub });
+    if (!userDoc) {
+      userDoc = new User({ auth0Sub: sub, nickname, gold: 0 });
+      await userDoc.save();
+      console.log("✅ New user created in DB:", userDoc);
+    } else {
+      console.log("Found existing user in DB:", userDoc);
+    }
+  // GET /api/me to retrieve the user's data
+app.get("/api/me", requiresAuth(), async (req, res) => {
+    const { sub } = req.oidc.user;
+    const userDoc = await User.findOne({ auth0Sub: sub });
+    if (!userDoc) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ 
+      nickname: userDoc.nickname,
+      gold: userDoc.gold
+    });
+  });
+  
+  // POST /api/me to update the user's data
+  app.post("/api/me", requiresAuth(), async (req, res) => {
+    const { sub } = req.oidc.user;
+    const { gold } = req.body; // e.g. new gold amount
+    const userDoc = await User.findOneAndUpdate(
+      { auth0Sub: sub },
+      { gold },
+      { new: true }
+    );
+    res.json(userDoc);
+  });
+  
+    // 3) Now serve the idle_game HTML
+    res.sendFile(path.join(__dirname, "public", "views", "idle_game.html"));
+  });
+  
 
 // 3) (Optional) Profile route to see Auth0 user data 
 app.get("/profile", requiresAuth(), (req, res) => {
