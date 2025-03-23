@@ -3,25 +3,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Idle Clicker - Welcome</title>
+  <title>MineClicker</title>
   <link rel="stylesheet" href="/css/style_login.css">
 </head>
 <body>
-
-  <!-- The glass-like container -->
   <div class="login-container">
-    <h1>Welcome to Idle Clicker</h1>
+    <h1>MineClicker</h1>
 
-    <!-- The main "Log In" button -->
-    <button id="loginButton">Log In with Auth0</button>
-
-    <!-- The two links (Protected route + Log Out) -->
-    <p>
-      <a href="/idle_game">Go to Idle Game (Protected)</a> | 
-      <a href="/logout">Log Out</a>
-    </p>
+    <!-- We'll fill this #buttons div dynamically with JS -->
+    <div id="buttons">
+      <p>Loading...</p>
+    </div>
   </div>
 
-  <script src="/js/login.js"></script>
+  <script>
+    // On page load, we attempt to fetch /profile.
+    // If it succeeds, the user is logged in; if it fails, they're not.
+    window.addEventListener("DOMContentLoaded", () => {
+      fetch("/profile") 
+        .then((res) => {
+          if (!res.ok) {
+            // If /profile returns a redirect or error, user isn't logged in
+            throw new Error("Not logged in");
+          }
+          return res.json(); // user is logged in
+        })
+        .then((profile) => {
+          // If successful, show "Continue to MineClicker" + "Logout"
+          document.getElementById("buttons").innerHTML = `
+            <button onclick="location.href='/idle_game'">Continue to MineClicker</button>
+            <button onclick="location.href='/logout'">Logout</button>
+          `;
+        })
+        .catch((err) => {
+          // If user not logged in, show "Log In to Play"
+          document.getElementById("buttons").innerHTML = `
+            <button onclick="location.href='/login'">Log In to Play</button>
+          `;
+        });
+    });
+  </script>
 </body>
 </html>

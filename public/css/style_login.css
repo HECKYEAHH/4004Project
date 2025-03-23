@@ -1,7 +1,4 @@
-/* 
-  Dark, starry background with a subtle gradient.
-  You can swap the background image or gradient as you like.
-*/
+/* style_login.css */
 body {
     margin: 0;
     padding: 0;
@@ -10,38 +7,23 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Example starry gradient */
+    /* example starry gradient or image */
     background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-    /* For a star image, you could do:
-       background-image: url('path/to/stars.jpg');
-       background-size: cover;
-    */
     color: #fff;
   }
   
-  /* 
-    The translucent, "glass" card container. 
-    Using backdrop-filter: blur(...) gives the glass effect on modern browsers.
-  */
   .login-container {
-    position: relative;
     width: 350px;
     padding: 40px 30px;
-    background: rgba(255, 255, 255, 0.08);  /* translucent white */
+    background: rgba(255, 255, 255, 0.08);
     border-radius: 16px;
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.18);
-  
-    /* Center text & items */
     text-align: center;
   }
   
-  /* 
-    Main title (like "Bento Social" in the screenshot).
-    Increase font size, lighten color for a sleek look.
-  */
   .login-container h1 {
     font-size: 1.8em;
     margin-bottom: 20px;
@@ -49,32 +31,9 @@ body {
     font-weight: 600;
   }
   
-  /* 
-    Example input fields (if you had a form).
-    For now, your index.html might not have them, but here's the style if needed.
-  */
-  .login-container input[type="text"],
-  .login-container input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    margin: 12px 0;
-    border: none;
-    border-radius: 8px;
-    outline: none;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    font-size: 1em;
-    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
-  }
-  
-  /* 
-    Generic button style: dark but slightly translucent,
-    with a hover effect. 
-  */
   .login-container button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 20px;
+    display: inline-block;
+    padding: 12px 40px;
     font-size: 1em;
     font-weight: 600;
     color: #fff;
@@ -83,48 +42,10 @@ body {
     border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s ease;
+    margin-bottom: 20px;
   }
   
   .login-container button:hover {
     background: rgba(0, 0, 0, 0.6);
-  }
-  
-  /* 
-    Links inside the container 
-  */
-  .login-container a {
-    color: #f0f0f0;
-    text-decoration: none;
-    font-size: 0.9em;
-  }
-  
-  .login-container a:hover {
-    text-decoration: underline;
-  }
-  
-  /* 
-    Additional text or footers
-  */
-  .login-container p {
-    margin-top: 20px;
-    font-size: 0.9em;
-    color: #ccc;
-  }
-  
-  /* 
-    If you want a small row of avatars or icons at the bottom, 
-    you could style them here, e.g.:
-  */
-  .footer-avatars {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-  }
-  .footer-avatars img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin: 0 5px;
-    object-fit: cover;
   }
   
