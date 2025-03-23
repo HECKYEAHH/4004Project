@@ -7,16 +7,20 @@
   <link rel="stylesheet" href="/css/style_login.css">
 </head>
 <body>
-  <h1>Welcome to Idle Clicker</h1>
 
-  <!-- Button that triggers Auth0 login -->
-  <button id="loginButton">Log In with Auth0</button>
+  <!-- The glass-like container -->
+  <div class="login-container">
+    <h1>Welcome to Idle Clicker</h1>
 
-  <!-- Links for convenience -->
-  <p>
-    <a href="/idle_game">Go to Idle Game (Protected)</a> | 
-    <a href="/logout">Log Out</a>
-  </p>
+    <!-- The main "Log In" button -->
+    <button id="loginButton">Log In with Auth0</button>
+
+    <!-- The two links (Protected route + Log Out) -->
+    <p>
+      <a href="/idle_game">Go to Idle Game (Protected)</a> | 
+      <a href="/logout">Log Out</a>
+    </p>
+  </div>
 
   <script src="/js/login.js"></script>
 </body>
