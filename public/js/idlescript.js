@@ -1,10 +1,26 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const username = localStorage.getItem('username');
-    if (!username) {
-        window.location.href = 'index.html'; // Redirect back to login if no username
-    }
+document.addEventListener('DOMContentLoaded', async () => {
 
-    document.getElementById('usernameDisplay').textContent = username;
+    try {
+        // 1) Fetch the current user's data from the server
+        const response = await fetch('/api/me');
+        if (!response.ok) {
+          // If not logged in or no user found, throw an error
+          throw new Error('Not logged in');
+        }
+    
+        // 2) Parse the JSON response
+        const userData = await response.json();
+        // userData should have { nickname, gold, ... }
+    
+        // 3) Display the nickname in idle.html
+        document.getElementById('usernameDisplay').textContent = userData.nickname || 'Unknown User';
+      } catch (err) {
+        console.error(err);
+        // If there's an error (e.g. user not logged in),
+        // redirect back to the main page or handle as needed
+        window.location.href = 'index.html';
+        return;
+      }
 
     const bit = document.querySelector('.bit-cost');
     const bpcText = document.getElementById("bpc-text");
