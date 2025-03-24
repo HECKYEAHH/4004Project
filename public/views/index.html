@@ -31,9 +31,9 @@
         .then((profile) => {
           // If successful, show "Continue to MineClicker" + "Logout"
           document.getElementById("buttons").innerHTML = `
-            <button onclick="location.href='/idle_game'">Continue to MineClicker</button>
-            <button onclick="location.href='/logout'">Logout</button>
-          `;
+            <button onclick="location.href='/idle'">Continue to MineClicker</button> 
+            <button onclick="location.href='/logout'">Logout</button>`;
+
         })
         .catch((err) => {
           // If user not logged in, show "Log In to Play"
