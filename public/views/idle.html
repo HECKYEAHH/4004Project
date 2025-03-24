@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BitClicker</title>
+    <link rel="stylesheet" href="idlestyle.css">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="left-section">
+            <button id="menuButton">Menu</button>
+            <a href="https://discord.gg/z4VfD3P6PE" target="_blank" class="discord-link">Discord</a>
+        </div>
+        <div class="center-section">
+            <span id="usernameDisplay"></span>
+        </div>
+        <div class="right-section">
+            <button id="leaderboardsButton">Leaderboards</button>
+            <button id="profileButton">Profile</button>
+        </div>
+    </div>
+
+    <div id="menuPopup" class="menu-popup">
+        <div class="menu-content">
+            <button id="saveProgressButton">Save Progress</button>
+            <button id="exportSaveButton">Export Save</button>
+            <button id="importSaveButton">Import Save</button>
+            <button id="resetProgressButton">Reset Progress</button>
+            <button id="closeMenu">Close</button>
+        </div>
+    </div>
+
+    <div id="profileMenu" class="menu-popup">
+        <div class="menu-content">
+            <button id="rebirthButton">Rebirth</button>
+            <button id="achievementsButton">Achievements</button>
+            <button id="statsButton">Stats</button>
+            <button id="closeProfileMenu">Close</button>
+        </div>
+    </div>
+
+    <div id="rebirthMenu" class="menu-popup">
+        <div class="menu-content">
+            <h3>Rebirth</h3>
+            <p>Rebirth cost: <span id="rebirthCostText">1000000</span> bits</p>
+            <p>Earn SSD Cards to unlock powerful upgrades!</p>
+            <button id="confirmRebirthButton">Confirm Rebirth</button>
+            <button id="closeRebirthMenu">Close</button>
+        </div>
+    </div>
+
+    <div id="achievementsPopup" class="menu-popup">
+        <div class="menu-content">
+            <h3>Achievements</h3>
+            <div id="achievementsList">
+                <!-- Achievements will be dynamically added here -->
+            </div>
+            <button id="closeAchievements">Close</button>
+        </div>
+    </div>
+
+    <div id="saveProgressMenu" class="menu-popup">
+        <div class="menu-content">
+            <h3>Select Save Slot</h3>
+            <button class="save-slot" data-slot="1">Save Slot 1</button>
+            <button class="save-slot" data-slot="2">Save Slot 2</button>
+            <button class="save-slot" data-slot="3">Save Slot 3</button>
+            <h3>Delete Save Slot</h3>
+            <button class="delete-slot" data-slot="1">Delete Slot 1</button>
+            <button class="delete-slot" data-slot="2">Delete Slot 2</button>
+            <button class="delete-slot" data-slot="3">Delete Slot 3</button>
+            <hr>
+            <h3>Select Load Slot</h3>
+            <button class="load-slot" data-slot="1">Load Slot 1</button>
+            <button class="load-slot" data-slot="2">Load Slot 2</button>
+            <button class="load-slot" data-slot="3">Load Slot 3</button>
+            <hr>
+            <label>
+                Increment Save Interval (minutes): 
+                <input type="number" id="saveInterval" min="1" max="60" value="5">
+            </label>
+            <button id="toggleAutosave">Toggle Autosave</button>
+            <button id="closeSaveMenu">Close</button>
+        </div>
+    </div>
+
+    <div id="exportMenu" class="menu-popup">
+        <div class="menu-content">
+            <h3>Export Save Data</h3>
+            <textarea id="exportTextarea" rows="10" cols="50"></textarea>
+            <button id="closeExportMenu">Close</button>
+        </div>
+    </div>
+
+    <div id="importMenu" class="menu-popup">
+        <div class="menu-content">
+            <h3>Import Save Data</h3>
+            <textarea id="importTextarea" rows="10" cols="50"></textarea>
+            <button id="closeImportMenu">Close</button>
+        </div>
+    </div>
+
+    <div id="leaderboard" class="menu-popup">
+        <div class="menu-content">
+            <h3>Leaderboard</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Total Earnings</th>
+                        <th>Total Clicks</th>
+                        <th>Total Rebirths</th>
+                        <th>Total Upgrades</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-entries">
+                    <!-- Leaderboard entries will be dynamically populated here -->
+                </tbody>
+            </table>
+            <button id="closeLeaderboard">Close</button>
+        </div>
+    </div>
+
+    <!-- Stats Menu -->
+    <div id="statsMenu" class="menu-popup">
+        <div class="menu-content">
+            <h3>Stats</h3>
+            <p>Total Clicks: <span id="totalClicks"></span></p>
+            <p>Total Rebirths: <span id="totalRebirths"></span></p>
+            <p>Total Upgrades Purchased: <span id="totalUpgrades"></span></p>
+            <p>Total Bits Obtained: <span id="totalBitsObtained"></span></p>
+            <p>Total Bits Spent: <span id="totalBitsSpent"></span></p>
+            <button id="closeStatsMenu">Close</button>
+        </div>
+    </div>
+
+    <section>
+        <div class="main">
+            <div class="left">
+                <p>Bits <br /><span class="bit-cost green-text">0</span></p>
+                <div class="bit-img-container">
+                    <img src="https://img.icons8.com/?size=100&id=nQTqBIksAScb&format=png&color=000000" alt="Bit Image" class="bit-image" draggable="false">
+                </div>
+            </div>
+            <div class="right">
+
+                <div class="upgrade buy-clicker">
+                    <div class="left-section">
+                        <img src="https://img.icons8.com/?size=100&id=23540&format=png&color=000000" alt="Upgrade Image" class="upgrade-image">
+                    </div>
+                    <div class="mid-section">
+                        <h4>Basic Bit Clicker</h4>
+                        <div class="cost-info">
+                            <p class="cost-text"><span class="basicbitcost">10</span></p>
+                            <img src="https://img.icons8.com/?size=100&id=nQTqBIksAScb&format=png&color=000000" alt="Bit Upgrade Image" class="bit-upimage">
+                        </div>
+                    </div>
+                    <div class="right-section">Level <span class="clicker-level">0</span></div>
+                    <div class="next-level-info">
+                        <p>+<span class="clicker-increase">1</span> bits<br />per second</p>
+                    </div>
+                </div>
+
+                <div class="upgrade buy-basicbitfarm">
+                    <div class="left-section">
+                        <img src="https://img.icons8.com/?size=100&id=pAwXr8Oh54Si&format=png&color=000000" alt="Upgrade Image" class="upgrade-image">
+                    </div>
+                    <div class="mid-section">
+                        <h4>Basic Bit Farm</h4>
+                        <div class="cost-info">
+                            <p class="cost-text"><span class="basicbitfarm">150</span></p>
+                            <img src="https://img.icons8.com/?size=100&id=nQTqBIksAScb&format=png&color=000000" alt="Bit Upgrade Image" class="bit-upimage">
+                        </div>
+                    </div>
+                    <div class="right-section">Level <span class="basicbitfarm-level">0</span></div>
+                    <div class="next-level-info">
+                        <p>+<span class="basicbitfarm-increase">4</span> bits<br />per second</p>
+                    </div>
+                </div>
+
+                <div class="upgrade buy-basiclogicgate">
+                    <div class="left-section">
+                        <img src="https://img.icons8.com/?size=100&id=THamXfRdD3GX&format=png&color=000000" alt="Upgrade Image" class="upgrade-image">
+                    </div>
+                    <div class="mid-section">
+                        <h4>Basic Logic Gate</h4>
+                        <div class="cost-info">
+                            <p class="cost-text"><span class="basiclogicgate">850</span></p>
+                            <img src="https://img.icons8.com/?size=100&id=nQTqBIksAScb&format=png&color=000000" alt="Bit Upgrade Image" class="bit-upimage">
+                        </div>
+                    </div>
+                    <div class="right-section">Level <span class="basiclogicgate-level">0</span></div>
+                    <div class="next-level-info">
+                        <p>+<span class="basiclogicgate-increase">24</span> bits<br />per second</p>
+                    </div>
+                </div>
+
+                <div class="upgrade buy-ramstick">
+                    <div class="left-section">
+                        <img src="https://img.icons8.com/?size=100&id=CJKamPsJbe9G&format=png&color=000000" alt="Upgrade Image" class="upgrade-image">
+                    </div>
+                    <div class="mid-section">
+                        <h4>RAM Stick</h4>
+                        <div class="cost-info">
+                            <p class="cost-text"><span class="ramStick">4750</span></p>
+                            <img src="https://img.icons8.com/?size=100&id=nQTqBIksAScb&format=png&color=000000" alt="Bit Upgrade Image" class="bit-upimage">
+                        </div>
+                    </div>
+                    <div class="right-section">Level <span class="ramStick-level">0</span></div>
+                    <div class="next-level-info">
+                        <p>+<span class="ramStick-increase">82</span> bits<br />per second</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="statistics">
+            <div class="texts">
+                <p>BPC: <span id="bpc-text" class="green-text">1</span></p>
+                <p>BPS: <span id="bps-text" class="green-text">0</span></p>
+                <p>SSD Cards: <span id="ssd-cards" class="green-text">0</span></p>
+            </div>
+        </div>
+    </section>  
+
+    <script src="idlescript.js"></script>
+</body>
+</html>
+<!--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-->

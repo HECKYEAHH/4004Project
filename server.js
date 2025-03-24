@@ -72,7 +72,7 @@ app.post("/api/me", requiresAuth(), async (req, res) => {
 });
 
 // idle_game route (Protected)
-app.get("/idle_game", requiresAuth(), async (req, res) => {
+app.get("/idle", requiresAuth(), async (req, res) => {
   const { sub, nickname } = req.oidc.user;
 
   let userDoc = await User.findOne({ auth0Sub: sub });
@@ -84,8 +84,10 @@ app.get("/idle_game", requiresAuth(), async (req, res) => {
     console.log("Found existing user in DB:", userDoc);
   }
 
-  res.sendFile(path.join(__dirname, "public", "views", "idle_game.html"));
+  // Serve idle.html instead of idle_game.html
+  res.sendFile(path.join(__dirname, "public", "views", "idle.html"));
 });
+
 
 // Optional profile route
 app.get("/profile", requiresAuth(), (req, res) => {
