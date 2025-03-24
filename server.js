@@ -71,7 +71,7 @@ app.post("/api/me", requiresAuth(), async (req, res) => {
   res.json(userDoc);
 });
 
-// idle_game route (Protected)
+// idle.html
 app.get("/idle", requiresAuth(), async (req, res) => {
   const { sub, nickname } = req.oidc.user;
 
