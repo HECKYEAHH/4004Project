@@ -1,231 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="Buttons_Resources.js" defer></script> <!-- Ensure the JavaScript file includes the tiered system -->
+    <link rel="stylesheet" href="Cakeclicker.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BitClicker</title>
-    <link rel="stylesheet" href="/css/idlestyle.css">
+    <title>Homepage</title>
 </head>
 <body>
-    <div class="top-bar">
-        <div class="left-section">
-            <button id="menuButton">Menu</button>
-            <a href="https://discord.gg/z4VfD3P6PE" target="_blank" class="discord-link">Discord</a>
-        </div>
-        <div class="center-section">
-            <span id="usernameDisplay"></span>
-        </div>
-        <div class="right-section">
-            <button id="leaderboardsButton">Leaderboards</button>
-            <button id="profileButton">Profile</button>
-        </div>
-    </div>
+   <div class="container">
+      <div id="left" class="left">
+         <h2>Buildings</h2>
+         <div class="image-stack">
+            <img class="area" src="Wheat Area v2.png" alt=" Wheat Area">
+            <img class="area" src="Sugarcane Area v2.png" alt=" Sugarcane Area">
+            <img class="area" src="Chicken Area v2.png" alt=" Chicken Area">
+            <img class="area" src="Cow Area v2.png" alt=" Cow Area">
+            <img class="area" src="Bakery Area v2.png" alt=" Bakery Area">
+         </div>
+      </div>
+      <div id="middle" class="center">
+         <div class="top">
+            <button id="Options" onclick="OptionToggle()">
+               <img src="Settings Button.png" alt="Settings">
+           </button>
+           <button id="Stats" onclick="StatsToggle()">
+               <img src="Stats Button.png" alt="Stats">
+            </button>
+            <h2 contenteditable="true">Cake Shop</h2>
+            <h2 id="cake">0 cakes</h2>
+            <p id="cps">Cakes per second</p>
+            <button id="cakeClicker" onclick="clickCake()">
+              <img class="cake" src="Cake.png" alt="Cake">
+            </button>
+         </div>
+         <div class="Social">
+            <a href="https://www.instagram.com/cake.clicker/profilecard/?igsh=bmQzYXUybTNxMDJ4">
+                <img src="Instagram Icon.png" alt="Instagram">
+            </a> 
+            <a href="https://www.tiktok.com/@cakeclicker3?is_from_webapp=1&sender_device=pc">
+                <img src="Tik Tok Icon.png" alt="TikTok">
+            </a>
+         </div>
+      </div>
+      <div id="right" class="right">
+         <h2>Upgrades</h2>
+         <div class="top-right">
+            <div class="Upgrades">
+               <!-- Furnaces -->
+               <button id="furnaceStandard"><img class="tier" src="standard_furnace.png" alt="Standard Furnace"></button>
+               <button id="furnaceStone"><img class="tier" src="Copper Furnace v2.png" alt="Stone Furnace"></button>
+               <button id="furnaceIron"><img class="tier" src="Iron Furnace v2.png" alt="Iron Furnace"></button>
+               <button id="furnaceGold"><img class="tier" src="Gold Furnace v2.png" alt="Gold Furnace"></button>
+               <button id="furnaceDiamond"><img class="tier" src="Diamond Furnace v2.png" alt="Diamond Furnace"></button>
 
-    <div id="menuPopup" class="menu-popup">
-        <div class="menu-content">
-            <button id="saveProgressButton">Save Progress</button>
-            <button id="exportSaveButton">Export Save</button>
-            <button id="importSaveButton">Import Save</button>
-            <button id="resetProgressButton">Reset Progress</button>
-            <button id="closeMenu">Close</button>
-        </div>
-    </div>
+               <!-- Milk Bottles -->
+               <button id="milkStandard"><img class="tier" src="milk.png" alt="Standard Milk"></button>
+               <button id="milkStone"><img class="tier" src="golden_milk.png" alt="Stone Milk"></button>
+               <button id="milkIron"><img class="tier" src="strawberry_milk.png" alt="Iron Milk"></button>
+               <button id="milkGold"><img class="tier" src="chocolate_milk.png" alt="Gold Milk"></button>
+               <button id="milkDiamond"><img class="tier" src="golden_chocolate_milk.png" alt="Diamond Milk"></button>
 
-    <div id="profileMenu" class="menu-popup">
-        <div class="menu-content">
-            <button id="rebirthButton">Rebirth</button>
-            <button id="achievementsButton">Achievements</button>
-            <button id="statsButton">Stats</button>
-            <button id="closeProfileMenu">Close</button>
-        </div>
-    </div>
+               <!-- Water Buckets -->
+               <button id="bucketStandard"><img class="tier" src="wooden_bucket.png" alt="Standard Bucket"></button>
+                <button id="bucketStone"><img class="tier" src="stone_bucket.png" alt="Stone Bucket"></button>
+                <button id="bucketIron"><img class="tier" src="iron_bucket.png" alt="Iron Bucket"></button>
+                <button id="bucketGold"><img class="tier" src="gold_bucket.png" alt="Gold Bucket"></button>
+               <button id="bucketDiamond"><img class="tier" src="diamond_bucket.png" alt="Diamond Bucket"></button>
 
-    <div id="rebirthMenu" class="menu-popup">
-        <div class="menu-content">
-            <h3>Rebirth</h3>
-            <p>Rebirth cost: <span id="rebirthCostText">1000000</span> bits</p>
-            <p>Earn SSD Cards to unlock powerful upgrades!</p>
-            <button id="confirmRebirthButton">Confirm Rebirth</button>
-            <button id="closeRebirthMenu">Close</button>
-        </div>
-    </div>
 
-    <div id="achievementsPopup" class="menu-popup">
-        <div class="menu-content">
-            <h3>Achievements</h3>
-            <div id="achievementsList">
-                <!-- Achievements will be dynamically added here -->
+               <!-- Hoes -->
+               <button id="hoeStandard"><img class="tier" src="wooden_hoe.png" alt="Standard Hoe"></button>
+               <button id="hoeStone"><img class="tier" src="stone_hoe.png" alt="Stone Hoe"></button>
+               <button id="hoeIron"><img class="tier" src="iron_hoe.png" alt="Iron Hoe"></button>
+               <button id="hoeGold"><img class="tier" src="golden_hoe.png" alt="Gold Hoe"></button>
+               <button id="hoeDiamond"><img class="tier" src="diamond_hoe.png" alt="Diamond Hoe"></button>
             </div>
-            <button id="closeAchievements">Close</button>
-        </div>
-    </div>
-
-    <div id="saveProgressMenu" class="menu-popup">
-        <div class="menu-content">
-            <h3>Select Save Slot</h3>
-            <button class="save-slot" data-slot="1">Save Slot 1</button>
-            <button class="save-slot" data-slot="2">Save Slot 2</button>
-            <button class="save-slot" data-slot="3">Save Slot 3</button>
-            <h3>Delete Save Slot</h3>
-            <button class="delete-slot" data-slot="1">Delete Slot 1</button>
-            <button class="delete-slot" data-slot="2">Delete Slot 2</button>
-            <button class="delete-slot" data-slot="3">Delete Slot 3</button>
-            <hr>
-            <h3>Select Load Slot</h3>
-            <button class="load-slot" data-slot="1">Load Slot 1</button>
-            <button class="load-slot" data-slot="2">Load Slot 2</button>
-            <button class="load-slot" data-slot="3">Load Slot 3</button>
-            <hr>
-            <label>
-                Increment Save Interval (minutes): 
-                <input type="number" id="saveInterval" min="1" max="60" value="5">
-            </label>
-            <button id="toggleAutosave">Toggle Autosave</button>
-            <button id="closeSaveMenu">Close</button>
-        </div>
-    </div>
-
-    <div id="exportMenu" class="menu-popup">
-        <div class="menu-content">
-            <h3>Export Save Data</h3>
-            <textarea id="exportTextarea" rows="10" cols="50"></textarea>
-            <button id="closeExportMenu">Close</button>
-        </div>
-    </div>
-
-    <div id="importMenu" class="menu-popup">
-        <div class="menu-content">
-            <h3>Import Save Data</h3>
-            <textarea id="importTextarea" rows="10" cols="50"></textarea>
-            <button id="closeImportMenu">Close</button>
-        </div>
-    </div>
-
-    <div id="leaderboard" class="menu-popup">
-        <div class="menu-content">
-            <h3>Leaderboard</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Name</th>
-                        <th>Total Earnings</th>
-                        <th>Total Clicks</th>
-                        <th>Total Rebirths</th>
-                        <th>Total Upgrades</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard-entries">
-                    <!-- Leaderboard entries will be dynamically populated here -->
-                </tbody>
-            </table>
-            <button id="closeLeaderboard">Close</button>
-        </div>
-    </div>
-
-    <!-- Stats Menu -->
-    <div id="statsMenu" class="menu-popup">
-        <div class="menu-content">
-            <h3>Stats</h3>
-            <p>Total Clicks: <span id="totalClicks"></span></p>
-            <p>Total Rebirths: <span id="totalRebirths"></span></p>
-            <p>Total Upgrades Purchased: <span id="totalUpgrades"></span></p>
-            <p>Total Bits Obtained: <span id="totalBitsObtained"></span></p>
-            <p>Total Bits Spent: <span id="totalBitsSpent"></span></p>
-            <button id="closeStatsMenu">Close</button>
-        </div>
-    </div>
-
-    <section>
-        <div class="main">
-            <div class="left">
-                <p>Bits <br /><span class="bit-cost green-text">0</span></p>
-                <div class="bit-img-container">
-                    <img src="https://img.icons8.com/?size=100&id=nQTqBIksAScb&format=png&color=000000" alt="Bit Image" class="bit-image" draggable="false">
-                </div>
+         </div>
+         <h2>Store</h2>
+         <div class="Buildings">
+            <div class="image-container">
+               <button id="CursorButton" onclick="clickCursor()">
+                  <div class="store-wrapper" style="background-image: url('store_button.png');">
+                      <img class="store" src="Click.png" alt="Click">
+                      <p id="cursor" class="Item">0 Cursors</p>
+                  </div>
+               </button>
+               <button id="farmersButton" onclick="clickFarmer()">
+                  <div class="store-wrapper" style="background-image: url('store_button.png');">
+                      <img class="store" src="Farmer.png" alt="Farmer">
+                      <p id="farmer" class="Item">0 Farmers</p>
+                  </div>
+               </button>
+               <button id="cowsButton" onclick="clickCow()">
+                  <div class="store-wrapper" style="background-image: url('store_button.png');">
+                      <img class="store" src="Cow.png" alt="Cow">
+                      <p id="cow" class="Item">0 Cows</p>
+                  </div>
+               </button>
+               <button id="chickensButton" onclick="clickChicken()">
+                  <div class="store-wrapper" style="background-image: url('store_button.png');">
+                      <img class="store" src="Chicken.png" alt="Chicken">
+                      <p id="chicken" class="Item">0 Chickens</p>
+                  </div>
+               </button>
+               <button id="sugarMastersButton" onclick="clickMaster()">
+                  <div class="store-wrapper" style="background-image: url('store_button.png');">
+                      <img class="store" src="Sugar Master.png" alt="Sugar Master">
+                      <p id="sugar" class="Item">0 Sugar Masters</p>
+                  </div>
+               </button>
+               <button id="bakersButton" onclick="clickBaker()">
+                  <div class="store-wrapper" style="background-image: url('store_button.png');">
+                      <img class="store" src="Baker.png" alt="Baker">
+                      <p id="baker" class="Item">0 Bakers</p>
+                  </div>
+               </button>
             </div>
-            <div class="right">
-
-                <div class="upgrade buy-clicker">
-                    <div class="left-section">
-                        <img src="https://img.icons8.com/?size=100&id=23540&format=png&color=000000" alt="Upgrade Image" class="upgrade-image">
-                    </div>
-                    <div class="mid-section">
-                        <h4>Basic Bit Clicker</h4>
-                        <div class="cost-info">
-                            <p class="cost-text"><span class="basicbitcost">10</span></p>
-                            <img src="https://img.icons8.com/?size=100&id=nQTqBIksAScb&format=png&color=000000" alt="Bit Upgrade Image" class="bit-upimage">
-                        </div>
-                    </div>
-                    <div class="right-section">Level <span class="clicker-level">0</span></div>
-                    <div class="next-level-info">
-                        <p>+<span class="clicker-increase">1</span> bits<br />per second</p>
-                    </div>
-                </div>
-
-                <div class="upgrade buy-basicbitfarm">
-                    <div class="left-section">
-                        <img src="https://img.icons8.com/?size=100&id=pAwXr8Oh54Si&format=png&color=000000" alt="Upgrade Image" class="upgrade-image">
-                    </div>
-                    <div class="mid-section">
-                        <h4>Basic Bit Farm</h4>
-                        <div class="cost-info">
-                            <p class="cost-text"><span class="basicbitfarm">150</span></p>
-                            <img src="https://img.icons8.com/?size=100&id=nQTqBIksAScb&format=png&color=000000" alt="Bit Upgrade Image" class="bit-upimage">
-                        </div>
-                    </div>
-                    <div class="right-section">Level <span class="basicbitfarm-level">0</span></div>
-                    <div class="next-level-info">
-                        <p>+<span class="basicbitfarm-increase">4</span> bits<br />per second</p>
-                    </div>
-                </div>
-
-                <div class="upgrade buy-basiclogicgate">
-                    <div class="left-section">
-                        <img src="https://img.icons8.com/?size=100&id=THamXfRdD3GX&format=png&color=000000" alt="Upgrade Image" class="upgrade-image">
-                    </div>
-                    <div class="mid-section">
-                        <h4>Basic Logic Gate</h4>
-                        <div class="cost-info">
-                            <p class="cost-text"><span class="basiclogicgate">850</span></p>
-                            <img src="https://img.icons8.com/?size=100&id=nQTqBIksAScb&format=png&color=000000" alt="Bit Upgrade Image" class="bit-upimage">
-                        </div>
-                    </div>
-                    <div class="right-section">Level <span class="basiclogicgate-level">0</span></div>
-                    <div class="next-level-info">
-                        <p>+<span class="basiclogicgate-increase">24</span> bits<br />per second</p>
-                    </div>
-                </div>
-
-                <div class="upgrade buy-ramstick">
-                    <div class="left-section">
-                        <img src="https://img.icons8.com/?size=100&id=CJKamPsJbe9G&format=png&color=000000" alt="Upgrade Image" class="upgrade-image">
-                    </div>
-                    <div class="mid-section">
-                        <h4>RAM Stick</h4>
-                        <div class="cost-info">
-                            <p class="cost-text"><span class="ramStick">4750</span></p>
-                            <img src="https://img.icons8.com/?size=100&id=nQTqBIksAScb&format=png&color=000000" alt="Bit Upgrade Image" class="bit-upimage">
-                        </div>
-                    </div>
-                    <div class="right-section">Level <span class="ramStick-level">0</span></div>
-                    <div class="next-level-info">
-                        <p>+<span class="ramStick-increase">82</span> bits<br />per second</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="statistics">
-            <div class="texts">
-                <p>BPC: <span id="bpc-text" class="green-text">1</span></p>
-                <p>BPS: <span id="bps-text" class="green-text">0</span></p>
-                <p>SSD Cards: <span id="ssd-cards" class="green-text">0</span></p>
-            </div>
-        </div>
-    </section>  
-
-    <script src="/js/idlescript.js"></script>
+         </div>
+      </div>
+   </div>
 </body>
 </html>
