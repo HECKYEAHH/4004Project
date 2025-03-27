@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="Buttons_Resources.js" defer></script> <!-- Ensure the JavaScript file includes the tiered system -->
-    <link rel="stylesheet" href="Cakeclicker.css">
+    <script src="/js/Buttons_Resources.js" defer></script> <!-- Ensure the JavaScript file includes the tiered system -->
+    <link rel="stylesheet" href="/css/Mineclicker.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
@@ -24,6 +24,9 @@
             <button id="Options" onclick="OptionToggle()">
                <img src="Settings Button.png" alt="Settings">
            </button>
+
+           <h3 id="usernameDisplay">Loading user...</h3>
+           <script src="/js/fetchUsername.js"defer></script>
            <button id="Stats" onclick="StatsToggle()">
                <img src="Stats Button.png" alt="Stats">
             </button>
