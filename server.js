@@ -19,10 +19,30 @@ const userSchema = new mongoose.Schema({
   nickname: { type: String },
   gold: { type: Number, default: 0 },
 
-  //PlayerDB data
-  minecraftUsername: {type: String}, //Like HECKYEAH or something like that
-  minecraftAvatarURL: {type: String}, //the web page to get the avatar url
+  // Any other fields from PlayerDB
+  minecraftUsername: { type: String },
+  minecraftAvatarURL: { type: String },
+
+  // The game data. Mirror your front-end structure
+  gameData: {
+    cakes: { type: Number, default: 0 },
+    cakesPerSecond: { type: Number, default: 0 },
+    cakesPerClick: { type: Number, default: 1 },
+    resources: {
+      cursor: { type: Number, default: 0 },
+      farmer: { type: Number, default: 0 },
+      cow: { type: Number, default: 0 },
+      chicken: { type: Number, default: 0 },
+      sugarMaster: { type: Number, default: 0 },
+      baker: { type: Number, default: 0 },
+      // Add others if needed
+    },
+    achievements: { type: Array, default: [] },
+    rebirthCount: { type: Number, default: 0 },
+    upgradesPurchased: { type: Array, default: [] },
+  }
 });
+
 const User = mongoose.model("User", userSchema);
 
 const app = express();
@@ -51,12 +71,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "views", "index.html"));
 });
 
-//setup minecraft
+// Setup MC
 app.get("/setup-minecraft", requiresAuth(), async (req, res) => {
-  // Simple example: serve an HTML page with a <form> for them to enter their MC username
+  // Serve the HTML form
   res.sendFile(path.join(__dirname, "public", "views", "minecraftSetup.html"));
 });
-
 
 app.post("/setup-minecraft", requiresAuth(), async (req, res) => {
   try {
@@ -67,7 +86,7 @@ app.post("/setup-minecraft", requiresAuth(), async (req, res) => {
       return res.status(400).send("Minecraft username is required.");
     }
 
-    // 1) Call PlayerDB to verify the username / get avatar
+    // 1) Call PlayerDB
     const url = `https://playerdb.co/api/player/minecraft/${encodeURIComponent(minecraftUsername)}`;
     const resp = await axios.get(url);
     if (!resp.data.success || !resp.data.data || !resp.data.data.player) {
@@ -76,8 +95,7 @@ app.post("/setup-minecraft", requiresAuth(), async (req, res) => {
 
     // 2) Extract data
     const playerInfo = resp.data.data.player;
-    // e.g. { username: 'Notch', avatar: 'https://minotar.net/avatar/Notch', ... }
-    const mcUsernameFinal = playerInfo.username; // might differ by case
+    const mcUsernameFinal = playerInfo.username;
     const mcAvatarURL = playerInfo.avatar;
 
     // 3) Save to Mongo
@@ -107,13 +125,12 @@ app.get("/api/me", requiresAuth(), async (req, res) => {
   res.json({
     nickname: userDoc.nickname,
     gold: userDoc.gold,
-    minecraftUsername: userDoc.minecraftUsername,        // <--- added
-    minecraftAvatarURL: userDoc.minecraftAvatarURL,      // <--- added
+    minecraftUsername: userDoc.minecraftUsername,
+    minecraftAvatarURL: userDoc.minecraftAvatarURL,
   });
 });
 
-
-// POST /api/me (Update user data)
+// POST /api/me (Update user data, e.g. gold)
 app.post("/api/me", requiresAuth(), async (req, res) => {
   const { sub } = req.oidc.user;
   const { gold } = req.body;
@@ -125,7 +142,7 @@ app.post("/api/me", requiresAuth(), async (req, res) => {
   res.json(userDoc);
 });
 
-// idle.html
+// Idle
 app.get("/idle", requiresAuth(), async (req, res) => {
   const { sub, nickname } = req.oidc.user;
   
@@ -145,7 +162,55 @@ app.get("/idle", requiresAuth(), async (req, res) => {
   res.sendFile(path.join(__dirname, "public", "views", "idle.html"));
 });
 
+// --------------- SAVE / LOAD ENDPOINTS --------------- //
 
+// POST /api/saveGame - Save game data to DB
+app.post("/api/saveGame", requiresAuth(), async (req, res) => {
+  try {
+    console.log("POST /api/saveGame invoked");
+    const { sub } = req.oidc.user; // from Auth0
+    const { gameData } = req.body; // { cakes, cakesPerSecond, resources, etc. }
+
+    if (!gameData) {
+      return res.status(400).json({ error: "No gameData provided" });
+    }
+
+    let userDoc = await User.findOne({ auth0Sub: sub });
+    console.log("Found userDoc:", userDoc);
+    if (!userDoc) {
+      return res.status(404).json({ error: "No user found in DB" });
+    }
+
+    // Overwrite or merge the fields
+    userDoc.gameData = gameData;
+    await userDoc.save();
+    console.log("Game data saved!");
+    return res.json({ message: "Game data saved successfully" });
+  } catch (err) {
+    console.error("Error saving game data:", err);
+    return res.status(500).json({ error: "Server error saving game data" });
+  }
+});
+
+// GET /api/loadGame - Load game data from DB
+app.get("/api/loadGame", requiresAuth(), async (req, res) => {
+  try {
+    console.log("GET /api/loadGame invoked");
+    const { sub } = req.oidc.user;
+
+    const userDoc = await User.findOne({ auth0Sub: sub });
+    if (!userDoc) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // userDoc.gameData might be an object with cakes, resources, etc.
+    console.log("Sending gameData:", userDoc.gameData);
+    return res.json(userDoc.gameData || {});
+  } catch (err) {
+    console.error("Error loading game data:", err);
+    return res.status(500).json({ error: "Server error loading game data" });
+  }
+});
 
 // Optional profile route
 app.get("/profile", requiresAuth(), (req, res) => {
