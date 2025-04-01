@@ -1,0 +1,177 @@
+@charset "UTF-8";
+
+html{
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    color: #070507;
+     background-color: #f4c2c2;
+    background-attachment: fixed;
+    font-family: "Comic Sans MS", "Comic Sans";
+    height: 100%;
+    margin: 0;
+}
+
+.cake{
+    width: 150px;
+    height: 150px;
+    padding-top: 30%;
+}
+
+button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+button#Options {
+    padding-right: 60%;
+}
+
+.container {
+    display: flex; 
+    justify-content: space-between; 
+    height: 100%;
+    width: 100%;
+}
+
+
+.left {
+    flex: 1; 
+    width: 25%;
+    height: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    overflow-y: auto;
+     border: 10px solid transparent;
+    border-image: url('Border v2 - H.png') 30 round;
+}
+
+
+.center {
+    flex: 1; 
+    width: 50%; 
+    height: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    background-image: url(Cafe\ Background.png);
+    background-position: center;
+    background-size: cover;
+    padding-top: 25px;
+    border: 10px solid transparent;
+    border-image: url('Border v2 - H.png') 30 round;
+}
+
+.top{
+    height: 90%;
+}
+
+.Social{
+    height: 10%;
+}
+
+.right {
+    flex: 1; 
+    width: 25%; 
+    height: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    overflow-y: auto;
+    border: 10px solid transparent;
+    border-image: url('Border v2 - H.png') 30 round;
+}
+
+.top-right{
+    overflow-y: auto;
+    border: 10px solid transparent;
+    border-image: url('Border v2 - H.png') 30 round;
+}
+
+
+
+.Upgrades{
+    width: 85%;
+    height: 200px;
+    padding-left: 50px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    justify-items: center; 
+    align-items: center;
+}
+
+
+.tier{
+    background: transparent;
+    height: 40%;
+    width: 18%;
+     border: 5px solid #555;
+}
+
+button img.tier{
+    width: 60px; 
+    height: 60px;
+    object-fit: contain;
+}
+
+button img.store {
+    width: 200px;
+    height: 100px;
+    object-fit: contain; 
+}
+
+.store-wrapper {
+    width: 330px;
+    height: 150px;
+    padding-right: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+}
+
+.store{
+    height: 80%;
+    width: 33%;
+    object-fit: contain;
+}
+
+p.Item{
+    font-size: x-large;
+    font-family: "Comic Sans MS", "Comic Sans";
+}
+
+.area{   
+    display: inline-block;
+    max-width: 95%;
+    height: 100%;
+    margin-bottom: 10px;
+    object-fit: cover;
+    
+    border: 10px solid transparent;
+    border-image: url('Border v2 - H.png') 30 round;
+     box-sizing: border-box;
+}
+
+image-stack img {
+    display: block;
+    width: 100%; 
+    margin-bottom: 10px; 
+}
+
+.thing {
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .05);
+}
+
+.thing-icon, .particle {
+    width: 64px;
+    height: 64px;
+}
+
+#game.filterOn .things.cantAfford.notOwned{
+    filter:blur(3px); 
+}
