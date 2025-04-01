@@ -1,54 +1,91 @@
-// Function to save the game state to localStorage
-function saveGameState() {
+// Function to save the game state to MongoDB
+async function saveGameToServer() {
     try {
-        const gameState = {
-            cakes: player.cakes,
-            cakesPerSecond: player.cakesPerSecond,
-            cakesPerClick: player.cakesPerClick,
-            resources: {
-                cursor: cursor.earned,
-                farmer: farmer.earned,
-                cow: cow.earned,
-                chicken: chicken.earned,
-                sugarMaster: sugarMaster.earned,
-                baker: baker.earned,
-            },
-        };
-        localStorage.setItem("cakeClickerSave", JSON.stringify(gameState));
-        console.log("Game saved automatically!");
+      // Mirror the shape of your "gameData" in the schema
+      const gameData = {
+        cakes: player.cakes,
+        cakesPerSecond: player.cakesPerSecond,
+        cakesPerClick: player.cakesPerClick,
+        resources: {
+          cursor: cursor.earned,
+          farmer: farmer.earned,
+          cow: cow.earned,
+          chicken: chicken.earned,
+          sugarMaster: sugarMaster.earned,
+          baker: baker.earned
+          // ... more as needed
+        },
+        achievements: achievements,      // if you have an achievements array
+        rebirthCount: rebirthCount,      // if you track rebirths
+        upgradesPurchased: upgradesList  // or whatever your code calls it
+      };
+  
+      const response = await fetch("/api/saveGame", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ gameData })
+      });
+      
+      if (!response.ok) {
+        throw new Error("Failed to save game data to server");
+      }
+  
+      const data = await response.json();
+      console.log(data.message); // e.g. "Game data saved successfully"
     } catch (error) {
-        console.error("Error saving game:", error);
+      console.error("Error saving game to server:", error);
     }
-}
-
+  }
+  
+  
 // Function to load the game state from localStorage
-function loadGameState() {
+async function loadGameFromServer() {
     try {
-        const savedState = localStorage.getItem("cakeClickerSave");
-        if (savedState) {
-            const gameState = JSON.parse(savedState);
-
-            // Load player data
-            player.cakes = gameState.cakes || 0;
-            player.cakesPerSecond = gameState.cakesPerSecond || 0;
-            player.cakesPerClick = gameState.cakesPerClick || 1;
-
-            // Load resources
-            cursor.earned = gameState.resources?.cursor || 0;
-            farmer.earned = gameState.resources?.farmer || 0;
-            cow.earned = gameState.resources?.cow || 0;
-            chicken.earned = gameState.resources?.chicken || 0;
-            sugarMaster.earned = gameState.resources?.sugarMaster || 0;
-            baker.earned = gameState.resources?.baker || 0;
-
-            console.log("Game loaded from saved state!");
-        } else {
-            console.log("No saved game found. Starting a new game.");
-        }
+      const response = await fetch("/api/loadGame");
+      if (!response.ok) {
+        throw new Error("Failed to load game from server");
+      }
+  
+      const serverData = await response.json();
+      // serverData might be {}, or an object with the structure:
+      // {
+      //   cakes: 100,
+      //   cakesPerSecond: 5,
+      //   cakesPerClick: 1,
+      //   resources: { ... },
+      //   achievements: [...],
+      //   ...
+      // }
+  
+      // Apply to your local variables
+      player.cakes = serverData.cakes || 0;
+      player.cakesPerSecond = serverData.cakesPerSecond || 0;
+      player.cakesPerClick = serverData.cakesPerClick || 1;
+  
+      cursor.earned = serverData.resources?.cursor || 0;
+      farmer.earned = serverData.resources?.farmer || 0;
+      cow.earned = serverData.resources?.cow || 0;
+      chicken.earned = serverData.resources?.chicken || 0;
+      sugarMaster.earned = serverData.resources?.sugarMaster || 0;
+      baker.earned = serverData.resources?.baker || 0;
+  
+      achievements = serverData.achievements || [];
+      rebirthCount = serverData.rebirthCount || 0;
+      upgradesList = serverData.upgradesPurchased || [];
+  
+      // Now update your UI to reflect loaded data
+      updateStats();
+      updateCakeCount();
+  
+      console.log("Game loaded from server!");
     } catch (error) {
-        console.error("Error loading game:", error);
+      console.error("Error loading game from server:", error);
     }
-}
+  }
+  
+  
 
 // Function to start auto-saving at regular intervals
 function startAutoSave() {
