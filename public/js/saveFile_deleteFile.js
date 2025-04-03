@@ -12,7 +12,9 @@ function saveGameToServer() {
     },
     achievements: achievements,
     rebirthCount: rebirthCount,
-    upgradesPurchased: upgradesList
+    upgradesPurchased: player.upgradesList
+
+
   };
 
   // 2) Send this JSON to the server with a POST /api/saveGame
@@ -64,11 +66,12 @@ async function loadGameFromServer() {
       chicken.earned = serverData.resources?.chicken || 0;
       sugarMaster.earned = serverData.resources?.sugarMaster || 0;
       baker.earned = serverData.resources?.baker || 0;
-  
+      
+      
       achievements = serverData.achievements || [];
       rebirthCount = serverData.rebirthCount || 0;
-      upgradesList = serverData.upgradesPurchased || [];
-  
+      player.upgradesList = serverData.upgradesPurchased || [];
+
       // Now update your UI to reflect loaded data
       updateStats();
       updateCakeCount();

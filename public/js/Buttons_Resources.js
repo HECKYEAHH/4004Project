@@ -1,4 +1,4 @@
-let upgradesList = [];
+
 
 function startIncrementing() {
     setInterval(() => {
@@ -88,7 +88,8 @@ function Button(name, description, onClickFunction) {
 let player = {
     cakesPerClick: 1, // Starts at 1 cake per click
     cakes: 0,
-    cakesPerSecond: 0 // Starts with 0 passive cakes per second
+    cakesPerSecond: 0, // Starts with 0 passive cakes per second
+    upgradesList: []
 };
 
 // Define costs and CPS percentages for each tier
@@ -148,8 +149,10 @@ function applyTieredUpgrade(itemName, baseCost, cpsIncreasePercent, tierMultipli
         alert(`${itemName} applied! CPS increased by ${tierEffect}%.`);
         
         // ✅ Track it
-        upgradesList.push(itemName);
-
+        if (!player.upgradesList.includes(itemName)) {
+            player.upgradesList.push(itemName);
+        }
+        
         updateStats();
     } else {
         console.log(`Insufficient cakes for upgrade: ${itemName}`);
