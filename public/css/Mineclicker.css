@@ -175,3 +175,24 @@ image-stack img {
 #game.filterOn .things.cantAfford.notOwned{
     filter:blur(3px); 
 }
+
+.autosave-popup {
+    position: fixed;
+    bottom: 10px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    z-index: 1000;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+  
+  .autosave-popup.show {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  
