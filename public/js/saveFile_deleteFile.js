@@ -8,12 +8,8 @@ function saveGameToServer() {
     resources: {
       cursor: cursor.earned,
       farmer: farmer.earned,
-      cow: cow.earned,
-      chicken: chicken.earned,
-      sugarMaster: sugarMaster.earned,
-      baker: baker.earned
+      // ...
     },
-    
     achievements: achievements,
     rebirthCount: rebirthCount,
     upgradesPurchased: upgradesList
@@ -30,11 +26,8 @@ function saveGameToServer() {
       return res.json();
     })
     .then((data) => {
-      console.log(data.message);
-      showAutoSavePopup("Game saved!");
+      console.log(data.message); // e.g. "Game data saved successfully"
     })
-    
-    
     .catch((err) => {
       console.error("Error saving:", err);
     });
@@ -110,18 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCakeCount(); // Update the cake count display
     startAutoSave(); // Start auto-save process
 });
-function showAutoSavePopup(message = "Autosaved!") {
-  const popup = document.getElementById("autosavePopup");
-  if (!popup) return;
-
-  popup.textContent = message;
-  popup.classList.add("show");
-
-  setTimeout(() => {
-    popup.classList.remove("show");
-  }, 2000); // Show for 2 seconds
-}
-
 
 // Function to wipe the save data
 function wipeSave() {
