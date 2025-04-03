@@ -75,11 +75,13 @@ async function loadGameFromServer() {
       // Now update your UI to reflect loaded data
       updateStats();
       updateCakeCount();
-  
+      document.getElementById("cps").innerHTML = `${player.cakesPerSecond} cakes per second`;
+
       console.log("Game loaded from server!");
     } catch (error) {
       console.error("Error loading game from server:", error);
     }
+
   }
   
   
