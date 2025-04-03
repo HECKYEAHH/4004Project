@@ -168,21 +168,23 @@ app.get("/idle", requiresAuth(), async (req, res) => {
 app.post("/api/saveGame", requiresAuth(), async (req, res) => {
   try {
     console.log("POST /api/saveGame invoked");
-    const { sub } = req.oidc.user; // from Auth0
-    const { gameData } = req.body; // { cakes, cakesPerSecond, resources, etc. }
+    const { sub } = req.oidc.user;       // Auth0 user ID
+    const { gameData } = req.body;       // The gameData from the request body
 
     if (!gameData) {
       return res.status(400).json({ error: "No gameData provided" });
     }
 
+    // 1) Find the user in Mongo by their Auth0 ID
     let userDoc = await User.findOne({ auth0Sub: sub });
-    console.log("Found userDoc:", userDoc);
     if (!userDoc) {
       return res.status(404).json({ error: "No user found in DB" });
     }
 
-    // Overwrite or merge the fields
+    // 2) Set userDoc.gameData to the new data
     userDoc.gameData = gameData;
+
+    // 3) Save the userDoc to Mongo
     await userDoc.save();
     console.log("Game data saved!");
     return res.json({ message: "Game data saved successfully" });
@@ -191,6 +193,7 @@ app.post("/api/saveGame", requiresAuth(), async (req, res) => {
     return res.status(500).json({ error: "Server error saving game data" });
   }
 });
+
 
 // GET /api/loadGame - Load game data from DB
 app.get("/api/loadGame", requiresAuth(), async (req, res) => {

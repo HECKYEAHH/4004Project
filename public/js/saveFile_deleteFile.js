@@ -1,44 +1,38 @@
 // Function to save the game state to MongoDB
-async function saveGameToServer() {
-    try {
-      // Mirror the shape of your "gameData" in the schema
-      const gameData = {
-        cakes: player.cakes,
-        cakesPerSecond: player.cakesPerSecond,
-        cakesPerClick: player.cakesPerClick,
-        resources: {
-          cursor: cursor.earned,
-          farmer: farmer.earned,
-          cow: cow.earned,
-          chicken: chicken.earned,
-          sugarMaster: sugarMaster.earned,
-          baker: baker.earned
-          // ... more as needed
-        },
-        achievements: achievements,      // if you have an achievements array
-        rebirthCount: rebirthCount,      // if you track rebirths
-        upgradesPurchased: upgradesList  // or whatever your code calls it
-      };
-  
-      const response = await fetch("/api/saveGame", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ gameData })
-      });
-      
-      if (!response.ok) {
-        throw new Error("Failed to save game data to server");
-      }
-  
-      const data = await response.json();
+function saveGameToServer() {
+  // 1) Build a gameData object with the user’s stats:
+  const gameData = {
+    cakes: player.cakes,
+    cakesPerSecond: player.cakesPerSecond,
+    cakesPerClick: player.cakesPerClick,
+    resources: {
+      cursor: cursor.earned,
+      farmer: farmer.earned,
+      // ...
+    },
+    achievements: achievements,
+    rebirthCount: rebirthCount,
+    upgradesPurchased: upgradesList
+  };
+
+  // 2) Send this JSON to the server with a POST /api/saveGame
+  fetch("/api/saveGame", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ gameData })
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to save");
+      return res.json();
+    })
+    .then((data) => {
       console.log(data.message); // e.g. "Game data saved successfully"
-    } catch (error) {
-      console.error("Error saving game to server:", error);
-    }
-  }
-  
+    })
+    .catch((err) => {
+      console.error("Error saving:", err);
+    });
+}
+
   
 // Function to load the game state from localStorage
 async function loadGameFromServer() {
