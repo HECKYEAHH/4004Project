@@ -8,8 +8,12 @@ function saveGameToServer() {
     resources: {
       cursor: cursor.earned,
       farmer: farmer.earned,
-      // ...
+      cow: cow.earned,
+      chicken: chicken.earned,
+      sugarMaster: sugarMaster.earned,
+      baker: baker.earned
     },
+    
     achievements: achievements,
     rebirthCount: rebirthCount,
     upgradesPurchased: upgradesList
@@ -83,8 +87,9 @@ async function loadGameFromServer() {
 
 // Function to start auto-saving at regular intervals
 function startAutoSave() {
-    setInterval(saveGameState, 5000); // Save the game every 5 seconds
+  setInterval(saveGameToServer, 5000); // every 5 seconds
 }
+
 document.addEventListener("DOMContentLoaded", async () => {
   // Load from server once user hits the page
   await loadGameFromServer();
