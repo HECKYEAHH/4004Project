@@ -1,3 +1,4 @@
+let upgradesList = [];
 
 function startIncrementing() {
     setInterval(() => {
@@ -137,18 +138,25 @@ function updateCakeCount() {
 function applyTieredUpgrade(itemName, baseCost, cpsIncreasePercent, tierMultiplier) {
     console.log(`Attempting upgrade: ${itemName}, Cost: ${baseCost}, CPS Increase: ${cpsIncreasePercent}, Multiplier: ${tierMultiplier}`);
     console.log(`Current cakes: ${player.cakes}, Current CPS: ${player.cakesPerSecond}`);
+    
     if (player.cakes >= baseCost) {
         player.cakes -= baseCost;
         const tierEffect = cpsIncreasePercent * tierMultiplier;
         player.cakesPerSecond *= (1 + tierEffect / 100);
+        
         console.log(`Upgrade successful. New CPS: ${player.cakesPerSecond}`);
         alert(`${itemName} applied! CPS increased by ${tierEffect}%.`);
+        
+        // ✅ Track it
+        upgradesList.push(itemName);
+
         updateStats();
     } else {
         console.log(`Insufficient cakes for upgrade: ${itemName}`);
         alert(`You need ${baseCost} cakes to purchase ${itemName}.`);
     }
 }
+
 
 
 // Function to create tiered upgrade handlers
