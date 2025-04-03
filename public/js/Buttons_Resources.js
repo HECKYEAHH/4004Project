@@ -16,25 +16,26 @@ const originalLeftContent = document.getElementById("left").innerHTML;
    let isStatsOpen = false;
 
    function OptionToggle() {
-      if (isOptionsOpen) {
-         document.getElementById("left").innerHTML = originalLeftContent;
-         isOptionsOpen = false;
-      } else {
-         document.getElementById("left").innerHTML = `
-            <div>
-               <h2>Options</h2>
-               <h2>Save</h2>
-               <h2>Wipe save</h2>
-            </div>
-            <div>
-               <h2>Settings</h2>
-               <h2>Volume</h2>
-               <h2>Other settings</h2>
-            </div>`;
-         isOptionsOpen = true;
-         isStatsOpen = false;
-      }
-   }
+    if (isOptionsOpen) {
+      document.getElementById("left").innerHTML = originalLeftContent;
+      isOptionsOpen = false;
+    } else {
+      document.getElementById("left").innerHTML = `
+        <div>
+          <h2>Options</h2>
+          <h2 onclick="saveGameToServer()" style="cursor: pointer;">Save</h2>
+          <h2 onclick="wipeSave()" style="cursor: pointer;">Wipe save</h2>
+        </div>
+        <div>
+          <h2>Settings</h2>
+          <h2>Volume</h2>
+          <h2>Other settings</h2>
+        </div>`;
+      isOptionsOpen = true;
+      isStatsOpen = false;
+    }
+  }
+  
 
    function StatsToggle() {
       if (isStatsOpen) {
