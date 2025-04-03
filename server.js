@@ -214,6 +214,26 @@ app.get("/api/loadGame", requiresAuth(), async (req, res) => {
     return res.status(500).json({ error: "Server error loading game data" });
   }
 });
+//Game wipe
+app.post('/api/wipeSave', requiresAuth(), async (req, res) => {
+  try {
+    const { sub } = req.oidc.user;
+
+    const userDoc = await User.findOne({ auth0Sub: sub });
+    if (!userDoc) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    userDoc.gameData = undefined; // or null
+    await userDoc.save();
+
+    res.json({ message: "Save wiped." });
+  } catch (err) {
+    console.error("Wipe error:", err);
+    res.status(500).json({ error: "Server error wiping save" });
+  }
+});
+
 
 // Optional profile route
 app.get("/profile", requiresAuth(), (req, res) => {

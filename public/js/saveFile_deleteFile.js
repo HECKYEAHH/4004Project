@@ -111,10 +111,12 @@ document.addEventListener("DOMContentLoaded", () => {
     startAutoSave(); // Start auto-save process
 });
 
-// Function to wipe the save data
+//wipes the save
 function wipeSave() {
-    if (confirm("Are you sure you want to delete your save? This action cannot be undone.")) {
-        localStorage.removeItem("cakeClickerSave");
-        location.reload(); // Reload the page to reset the game
-    }
+  fetch('/api/wipeSave', {
+    method: 'POST'
+  })
+  .then(() => {
+    location.reload();
+  });
 }
