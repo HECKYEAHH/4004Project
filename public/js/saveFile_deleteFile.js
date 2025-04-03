@@ -71,8 +71,10 @@ async function loadGameFromServer() {
       achievements = serverData.achievements || [];
       rebirthCount = serverData.rebirthCount || 0;
       player.upgradesList = serverData.upgradesPurchased || [];
+      
 
       // Now update your UI to reflect loaded data
+      refreshStoreUI();
       updateStats();
       updateCakeCount();
       document.getElementById("cps").innerHTML = `${player.cakesPerSecond} cakes per second`;

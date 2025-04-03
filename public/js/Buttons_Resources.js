@@ -508,6 +508,14 @@ function updateStats() {
     displayStats();
 }
 
+function refreshStoreUI() {
+    document.getElementById("cursor").innerHTML = `${cursor.earned} Cursors`;
+    document.getElementById("farmer").innerHTML = `${farmer.earned} Farmers`;
+    document.getElementById("cow").innerHTML = `${cow.earned} Cows`;
+    document.getElementById("chicken").innerHTML = `${chicken.earned} Chickens`;
+    document.getElementById("sugar").innerHTML = `${sugarMaster.earned} Sugar Masters`;
+    document.getElementById("baker").innerHTML = `${baker.earned} Bakers`;
+}
 
 
 // Initialize the game and start passive generation
