@@ -91,6 +91,15 @@ async function loadGameFromServer() {
 function startAutoSave() {
     setInterval(saveGameState, 5000); // Save the game every 5 seconds
 }
+document.addEventListener("DOMContentLoaded", async () => {
+  // Load from server once user hits the page
+  await loadGameFromServer();
+
+  // Start an interval to auto-save 
+  setInterval(() => {
+    saveGameToServer();
+  }, 30000); // e.g., save every 30s
+});
 
 // Initialize the game state on page load
 document.addEventListener("DOMContentLoaded", () => {

@@ -131,6 +131,7 @@ function updateStats() {
 }
 
 // Simulating some button clicks
+/*
 cakeClicker.onClick();
 farmersButton.onClick();
 chickensButton.onClick();
@@ -150,3 +151,4 @@ upgradeResource(hoe, 10, 2);
 upgradeResource(furnace, 50, 10);
 upgradeResource(water, 20, 5);
 upgradeResource(seed, 30, 4);
+*/
