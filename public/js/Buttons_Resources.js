@@ -31,6 +31,8 @@ const originalLeftContent = document.getElementById("left").innerHTML;
           <h2>Settings</h2>
           <h2>Volume</h2>
           <h2>Other settings</h2>
+          <h2 onclick="location.href='/logout'" style="cursor: pointer;">Log out</h2>
+
         </div>`;
       isOptionsOpen = true;
       isStatsOpen = false;
