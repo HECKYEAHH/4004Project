@@ -8,7 +8,10 @@ function saveGameToServer() {
     resources: {
       cursor: cursor.earned,
       farmer: farmer.earned,
-      // ...
+      cow: cow.earned,
+      chicken: chicken.earned,
+      sugarMaster: sugarMaster,
+      baker: baker.earned
     },
     achievements: achievements,
     rebirthCount: rebirthCount,
