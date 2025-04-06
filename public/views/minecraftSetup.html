@@ -3,8 +3,33 @@
 <head>
   <title>Set Up Minecraft Username</title>
   <link rel="stylesheet" href="/css/minecraft_setup.css">
-  <script src="/public/js/backgroundRotate.js" defer></script>
-
+  <script>
+    //rotating background code
+    document.addEventListener("DOMContentLoaded", () => {
+      const backgrounds = [
+        '/images/background1.png',
+        '/images/background2.png',
+        '/images/background3.png',
+        '/images/background4.png',
+        '/images/background5.png'
+      ];
+  
+      let current = 0;
+      const interval = 5000; // 5 seconds
+  
+      function rotateBackground() {
+        const bg = document.getElementById('rotatingBackground');
+        if (bg) {
+          bg.style.backgroundImage = `url('${backgrounds[current]}')`;
+          current = (current + 1) % backgrounds.length;
+        }
+      }
+  
+      rotateBackground(); // Show first image immediately
+      setInterval(rotateBackground, interval);
+    });
+  </script>
+  
 
 </head>
 <body id="rotatingBackground">
@@ -17,4 +42,30 @@
 <body id="rotatingBackground">
 
 </body>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const backgrounds = [
+      '/images/background1.png',
+      '/images/background2.png',
+      '/images/background3.png',
+      '/images/background4.png',
+      '/images/background5.png'
+    ];
+
+    let current = 0;
+    const interval = 5000; // 5 seconds
+
+    function rotateBackground() {
+      const bg = document.getElementById('rotatingBackground');
+      if (bg) {
+        bg.style.backgroundImage = `url('${backgrounds[current]}')`;
+        current = (current + 1) % backgrounds.length;
+      }
+    }
+
+    rotateBackground(); // Show first image immediately
+    setInterval(rotateBackground, interval);
+  });
+</script>
+
 </html>
