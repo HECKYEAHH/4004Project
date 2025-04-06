@@ -48,4 +48,10 @@ body {
   .login-container button:hover {
     background: rgba(0, 0, 0, 0.6);
   }
+  #rotatingBackground {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: background-image 1s ease-in-out;
+  }
   

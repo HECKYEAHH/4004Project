@@ -52,3 +52,10 @@ body {
     background-color: #146c3a;
   }
   
+  #rotatingBackground {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: background-image 1s ease-in-out;
+  }
+  
