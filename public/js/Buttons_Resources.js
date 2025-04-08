@@ -203,12 +203,13 @@ function startIncrementing() {
     const upgradeGoldenFlower  = createTieredUpgrade("Golden Flower", 12000, 4, 5);
 
   
-  // Hoes (Books)
-  const upgradeHoeStandard = createTieredUpgrade("Hoe (Standard)", 100, 5, 1);
-  const upgradeHoeStone    = createTieredUpgrade("Hoe (Stone)", 500, 5, 2);
-  const upgradeHoeIron     = createTieredUpgrade("Hoe (Iron)", 2000, 5, 3);
-  const upgradeHoeGold     = createTieredUpgrade("Hoe (Gold)", 5000, 5, 4);
-  const upgradeHoeDiamond  = createTieredUpgrade("Hoe (Diamond)", 10000, 5, 5);
+    // Books replace the old “Hoes”
+    const upgradeBlueBook   = createTieredUpgrade("Blue Book",   100,   5, 1);
+    const upgradeGreenBook  = createTieredUpgrade("Green Book",  500,   5, 2);
+    const upgradePurpleBook = createTieredUpgrade("Purple Book", 2000,  5, 3);
+    const upgradeRedBook    = createTieredUpgrade("Red Book",    5000,  5, 4);
+    const upgradeGoldBook   = createTieredUpgrade("Gold Book",   10000, 5, 5);
+
   
   /*************************************************
    *  ATTACH BUTTONS TO UPGRADE FUNCTIONS
@@ -242,12 +243,12 @@ function startIncrementing() {
     attachListener("goldenFlower", upgradeGoldenFlower);
 
   
-    // Hoe (Books)
-    attachListener("hoeStandard", upgradeHoeStandard);
-    attachListener("hoeStone",    upgradeHoeStone);
-    attachListener("hoeIron",     upgradeHoeIron);
-    attachListener("hoeGold",     upgradeHoeGold);
-    attachListener("hoeDiamond",  upgradeHoeDiamond);
+    // Books
+    attachListener("blueBook",   upgradeBlueBook);
+    attachListener("greenBook",  upgradeGreenBook);
+    attachListener("purpleBook", upgradePurpleBook);
+    attachListener("redBook",    upgradeRedBook);
+    attachListener("goldBook",   upgradeGoldBook);
   });
   
   /*************************************************
