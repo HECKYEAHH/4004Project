@@ -280,7 +280,7 @@ function startIncrementing() {
   
   function updateStats() {
     // For on‐screen
-    document.getElementById("cake").innerText = `${player.cakes} cakes`;
+    document.getElementById("cake").innerText = `${player.cakes.toFixed(2)} cakes`;
     // If you have an element for CPS:
     const cpsEl = document.getElementById("cps");
     if (cpsEl) {
