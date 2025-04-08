@@ -10,7 +10,7 @@ function saveGameToServer() {
       farmer: farmer.earned,
       cow: cow.earned,
       chicken: chicken.earned,
-      sugarMaster: sugarMaster,
+      sugarMaster: sugarMaster.earned,
       baker: baker.earned
     },
     achievements: achievements,
