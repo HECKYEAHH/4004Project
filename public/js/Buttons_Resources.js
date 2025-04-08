@@ -262,7 +262,7 @@ function startIncrementing() {
   }
   
   function updateCakeCount() {
-    document.getElementById("cake").textContent = `${player.cakes} cakes`;
+    document.getElementById("cake").textContent = `${player.cakes.toFixed(2)} cakes`;
   }
   
   // Show game info in console for debugging
