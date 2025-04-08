@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Initialize the game state on page load
 document.addEventListener("DOMContentLoaded", () => {
-    loadGameState(); // Load game state on page load
+    loadGameFromServer(); // Load game state on page load
     updateStats(); // Update stats to reflect the loaded state
     updateCakeCount(); // Update the cake count display
     startAutoSave(); // Start auto-save process
