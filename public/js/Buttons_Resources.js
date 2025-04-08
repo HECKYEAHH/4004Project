@@ -182,18 +182,18 @@ function startIncrementing() {
     *  DEFINE ALL YOUR TIERED UPGRADES
     *************************************************/
     // Furnaces
-     const upgradeFurnaceStandard = createTieredUpgrade("Furnace (Standard)", 250, 7, 1);
-     const upgradeFurnaceStone    = createTieredUpgrade("Furnace (Stone)", 800, 7, 2);
-    const upgradeFurnaceIron     = createTieredUpgrade("Furnace (Iron)", 3500, 7, 3);
-    const upgradeFurnaceGold     = createTieredUpgrade("Furnace (Gold)", 8500, 7, 4);
-    const upgradeFurnaceDiamond  = createTieredUpgrade("Furnace (Diamond)", 17000, 7, 5);
+    const upgradeFurnaceStandard = createTieredUpgrade("Stone Furnace", 250, 7, 1);
+    const upgradeFurnaceStone    = createTieredUpgrade("Bronze Furnace", 800, 7, 2);
+    const upgradeFurnaceIron     = createTieredUpgrade("Iron Furnace", 3500, 7, 3);
+    const upgradeFurnaceGold     = createTieredUpgrade("Gold Furnace", 8500, 7, 4);
+    const upgradeFurnaceDiamond  = createTieredUpgrade("Diamond Furnace", 17000, 7, 5);
   
     // Milk Bottles
-     const upgradeMilkStandard = createTieredUpgrade("Milk Bottle (Standard)", 200, 6, 1);
-     const upgradeMilkStone    = createTieredUpgrade("Milk Bottle (Stone)", 700, 6, 2);
-    const upgradeMilkIron     = createTieredUpgrade("Milk Bottle (Iron)", 3000, 6, 3);
-    const upgradeMilkGold     = createTieredUpgrade("Milk Bottle (Gold)", 7500, 6, 4);
-    const upgradeMilkDiamond  = createTieredUpgrade("Milk Bottle (Diamond)", 15000, 6, 5);
+    const upgradeMilkStandard = createTieredUpgrade("Milk Bottle", 200, 6, 1);
+    const upgradeMilkStone    = createTieredUpgrade("Oat Milk Bottle", 700, 6, 2);
+    const upgradeMilkIron     = createTieredUpgrade("Strawberry Milk Bottle", 3000, 6, 3);
+    const upgradeMilkGold     = createTieredUpgrade("Chocolate Milk Bottle", 7500, 6, 4);
+    const upgradeMilkDiamond  = createTieredUpgrade("Golden Milk Bottle", 15000, 6, 5);
 
     // Flowers as tiered upgrades
     const upgradeBlueOrchid = createTieredUpgrade("Blue Orchid", 150, 4, 1);
@@ -237,7 +237,7 @@ function startIncrementing() {
   
     // Flower Buttons 
     attachListener("blueOrchid", upgradeBlueOrchid);
-    attachListener("oxeyeDaisy", upgradeOxeyeDaisy);
+    attachListener("oxeye_Daisy", upgradeOxeyeDaisy);
     attachListener("rose", upgradeRose);
     attachListener("purpleFlower", upgradePurpleFlower);
     attachListener("goldenFlower", upgradeGoldenFlower);
