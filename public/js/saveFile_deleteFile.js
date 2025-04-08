@@ -1,3 +1,8 @@
+//global scope for achievements and rebirthCount
+let achievements = [];
+let rebirthCount = 0;
+
+
 // Function to save the game state to MongoDB
 function saveGameToServer() {
   // 1) Build a gameData object with the user’s stats:
