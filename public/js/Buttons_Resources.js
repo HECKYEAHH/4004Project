@@ -178,29 +178,30 @@ function startIncrementing() {
     };
   }
   
-  /*************************************************
-   *  DEFINE ALL YOUR TIERED UPGRADES
-   *************************************************/
-  // Furnaces
-  const upgradeFurnaceStandard = createTieredUpgrade("Furnace (Standard)", 250, 7, 1);
-  const upgradeFurnaceStone    = createTieredUpgrade("Furnace (Stone)", 800, 7, 2);
-  const upgradeFurnaceIron     = createTieredUpgrade("Furnace (Iron)", 3500, 7, 3);
-  const upgradeFurnaceGold     = createTieredUpgrade("Furnace (Gold)", 8500, 7, 4);
-  const upgradeFurnaceDiamond  = createTieredUpgrade("Furnace (Diamond)", 17000, 7, 5);
+    /*************************************************
+    *  DEFINE ALL YOUR TIERED UPGRADES
+    *************************************************/
+    // Furnaces
+     const upgradeFurnaceStandard = createTieredUpgrade("Furnace (Standard)", 250, 7, 1);
+     const upgradeFurnaceStone    = createTieredUpgrade("Furnace (Stone)", 800, 7, 2);
+    const upgradeFurnaceIron     = createTieredUpgrade("Furnace (Iron)", 3500, 7, 3);
+    const upgradeFurnaceGold     = createTieredUpgrade("Furnace (Gold)", 8500, 7, 4);
+    const upgradeFurnaceDiamond  = createTieredUpgrade("Furnace (Diamond)", 17000, 7, 5);
   
-  // Milk Bottles
-  const upgradeMilkStandard = createTieredUpgrade("Milk Bottle (Standard)", 200, 6, 1);
-  const upgradeMilkStone    = createTieredUpgrade("Milk Bottle (Stone)", 700, 6, 2);
-  const upgradeMilkIron     = createTieredUpgrade("Milk Bottle (Iron)", 3000, 6, 3);
-  const upgradeMilkGold     = createTieredUpgrade("Milk Bottle (Gold)", 7500, 6, 4);
-  const upgradeMilkDiamond  = createTieredUpgrade("Milk Bottle (Diamond)", 15000, 6, 5);
-  
-  // Flowers (these are “buckets” in your HTML)
-  const upgradeBucketStandard = createTieredUpgrade("Water Bucket (Standard)", 150, 4, 1);
-  const upgradeBucketStone    = createTieredUpgrade("Water Bucket (Stone)", 600, 4, 2);
-  const upgradeBucketIron     = createTieredUpgrade("Water Bucket (Iron)", 2500, 4, 3);
-  const upgradeBucketGold     = createTieredUpgrade("Water Bucket (Gold)", 6000, 4, 4);
-  const upgradeBucketDiamond  = createTieredUpgrade("Water Bucket (Diamond)", 12000, 4, 5);
+    // Milk Bottles
+     const upgradeMilkStandard = createTieredUpgrade("Milk Bottle (Standard)", 200, 6, 1);
+     const upgradeMilkStone    = createTieredUpgrade("Milk Bottle (Stone)", 700, 6, 2);
+    const upgradeMilkIron     = createTieredUpgrade("Milk Bottle (Iron)", 3000, 6, 3);
+    const upgradeMilkGold     = createTieredUpgrade("Milk Bottle (Gold)", 7500, 6, 4);
+    const upgradeMilkDiamond  = createTieredUpgrade("Milk Bottle (Diamond)", 15000, 6, 5);
+
+    // Flowers as tiered upgrades
+    const upgradeBlueOrchid = createTieredUpgrade("Blue Orchid", 150, 4, 1);
+    const upgradeOxeyeDaisy = createTieredUpgrade("Oxeye Daisy", 600, 4, 2);
+    const upgradeRose       = createTieredUpgrade("Rose", 2500, 4, 3);
+    const upgradePurpleFlower = createTieredUpgrade("Purple Flower", 6000, 4, 4);
+    const upgradeGoldenFlower  = createTieredUpgrade("Golden Flower", 12000, 4, 5);
+
   
   // Hoes (Books)
   const upgradeHoeStandard = createTieredUpgrade("Hoe (Standard)", 100, 5, 1);
@@ -233,12 +234,13 @@ function startIncrementing() {
     attachListener("milkGold",     upgradeMilkGold);
     attachListener("milkDiamond",  upgradeMilkDiamond);
   
-    // Flower Buttons (the “buckets”)
-    attachListener("bucketStandard", upgradeBucketStandard);
-    attachListener("bucketStone",    upgradeBucketStone);
-    attachListener("bucketIron",     upgradeBucketIron);
-    attachListener("bucketGold",     upgradeBucketGold);
-    attachListener("bucketDiamond",  upgradeBucketDiamond);
+    // Flower Buttons 
+    attachListener("blueOrchid", upgradeBlueOrchid);
+    attachListener("oxeyeDaisy", upgradeOxeyeDaisy);
+    attachListener("rose", upgradeRose);
+    attachListener("purpleFlower", upgradePurpleFlower);
+    attachListener("goldenFlower", upgradeGoldenFlower);
+
   
     // Hoe (Books)
     attachListener("hoeStandard", upgradeHoeStandard);
