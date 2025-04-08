@@ -284,7 +284,7 @@ function startIncrementing() {
     // If you have an element for CPS:
     const cpsEl = document.getElementById("cps");
     if (cpsEl) {
-      cpsEl.innerText = `${player.cakesPerSecond} cakes per second`;
+      cpsEl.innerText = `${player.cakesPerSecond.toFixed(2)} cakes per second`;
     }
   
     displayStats(); // logs to console
