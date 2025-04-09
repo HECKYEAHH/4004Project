@@ -17,7 +17,7 @@ mongoose
 const userSchema = new mongoose.Schema({
   auth0Sub: { type: String, unique: true },
   nickname: { type: String },
-  gold: { type: Number, default: 0 },
+  gold: { type: Number, default: 0 }, //this isn't used
 
   // Any other fields from PlayerDB
   minecraftUsername: { type: String },
