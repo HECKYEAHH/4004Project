@@ -6,8 +6,10 @@
 
 # AI DOCUMENTATION
 
-<!--> ChatGPT 4o and o1
-AI Used: ChatGPT (Large Language Model by OpenAI, GPT-4)
+<!--> Note: we used AI to help trouble shoot the code some of the functions are a result of AI as such.
+
+ChatGPT 4o and o1
+AI Used: ChatGPT
 
 Model/Version: GPT-4 (no local model used)
 
@@ -62,26 +64,28 @@ Helped set up mongo atlas database with heroku when we ran into issues
 
 Helped set up heroku with github and Mongo atlas when we ran into issues
 
+helped troubleshoot all issues that came about
+
 
 Affected Files & Functions:
 
 idle.html
 
-saveFile_deleteFile.js (renamed or extended to handle server saving)
+saveFile_deleteFile.js (helped configure this file to work with the rest of the code)
 
-Buttons_Resources.js (to add a “Save” button in OptionToggle)
+Buttons_Resources.js (to add a “Save” button in OptionToggle for the settings menu)
 
-server.js (new routes: POST /api/saveGame and GET /api/loadGame, plus user schema changes)
+server.js (new routes: POST /api/saveGame and GET /api/loadGame, plus user schema changes, made it so Auth0 works, and the connection to Mogno atlas, and heroku work)
 
-Upgrades_Buttons_Resources.js (removing auto-click lines that override loaded data)
+Upgrades_Buttons_Resources.js (helped integrate with rest of code to work with idle.html)
 
 fetchUsername.js
 
 Mineclicker.css
 
-Minecraft_setup.css
+Minecraft_setup.css (helped set up CSS)
 
-style_login.css
+style_login.css (helped setup the styling for the login page)
 
 index.html
 
