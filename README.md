@@ -17,6 +17,14 @@ Prompts & Responses:
 
 User Prompt (summary):
 
+“Where should I start building an idle‑clicker website—framework or plain HTML/CSS/JS?”
+
+“How do I create a GitHub repo for my group and set up collaboration?
+
+do I need separate front‑end and back‑end servers for Heroku?”
+
+
+
 "How do I integrate Auth0 into my idle game?"
 
 "How do I load a Minecraft username from PlayerDB and store it in Mongo?"
